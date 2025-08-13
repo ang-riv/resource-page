@@ -13,7 +13,9 @@ function App() {
   const [resources, setResources] = useState([]);
 
   const [selectedMain, setSelectedMain] = useState("");
-  const [selectedSub, setSelectedSub] = useState([]);
+  const [showSubs, setShowSubs] = useState([]);
+  const [selectedSub, setSelectedSub] = useState("");
+  const [openRes, setOpenRes] = useState("");
 
   useEffect(() => {
     // fetch cats + sub cats
@@ -54,12 +56,13 @@ function App() {
         // remove headers
         const excludeHeaders = result.values.slice(2);
         const resObj = excludeHeaders.map(
-          ([mainCat, subCat, thumbnail, pdf, video, link]) => ({
+          ([mainCat, subCat, thumbnail, title, video, pdf, link]) => ({
             mainCat,
             subCat,
             thumbnail,
-            pdf,
+            title,
             video,
+            pdf,
             link,
           })
         );
@@ -76,13 +79,13 @@ function App() {
       const subCatIndex = subCats.findIndex(
         (subCat) => subCat[0] === selectedMain
       );
-      setSelectedSub(subCats[subCatIndex]);
+      setShowSubs(subCats[subCatIndex]);
     }
   }, [selectedMain]);
 
   // styles
   const containerStyles =
-    "min-w-[300px] bg-white h-fit p-2 [&:not(:first-child)]:mt-5";
+    "min-w-[300px] bg-white h-fit p-2 [&:not(header)]:mt-5";
   const dashContainerStyles =
     "dash-border w=full h-full flex flex-col justify-center items-center py-5";
   const mainBtnColors = [
@@ -90,8 +93,57 @@ function App() {
     "bg-accent-orange/30",
     "bg-accent-green/30",
   ];
+
+  // fcns
+  const displaySubs = () => {
+    const subBtns = showSubs.slice(1).map((subCat) => (
+      <button
+        key={subCat}
+        className="h-22 bg-accent-red/30 font-semibold text-xl w-22 leading-6"
+        onClick={() => setSelectedSub(subCat)}
+      >
+        {subCat}
+      </button>
+    ));
+    return subBtns;
+  };
+  const showResources = () => {
+    const selectedRes = resources.filter((res) => res.subCat === selectedSub);
+    const showRes = selectedRes.map((res) => {
+      // making the thumbnail
+      let imgSrc;
+      const thumbnail = res.thumbnail;
+      const fileID = thumbnail.match(/\/d\/([^/]+)/)?.[1];
+      imgSrc = `https://drive.google.com/thumbnail?id=${fileID}`;
+      return (
+        <div className="min-w-[300px] bg-white h-[350px] mt-5">
+          <h3 className="bg-accent-yellow w-fit pl-3 pr-2 text-2xl absolute mt-4">
+            {res.title}
+          </h3>
+          <img
+            src={imgSrc}
+            className="w-full h-full p-2 object-contain"
+            onClick={() => setOpenRes(res.title)}
+            alt=""
+          />
+        </div>
+      );
+    });
+    return showRes;
+  };
   return (
     <div className="min-h-screen bg-beige">
+      {openRes != "" && (
+        <>
+          <div className="fixed bg-black h-full w-full opacity-50 z-10"></div>
+          <button
+            className="h-10 w-10 rounded-full fixed bg-accent-green z-20 font-bold text-white"
+            onClick={() => setOpenRes("")}
+          >
+            X
+          </button>
+        </>
+      )}
       <div className="w-full min-h-screen bg-primary-green flex justify-start flex-col p-2">
         <header className={containerStyles}>
           <div className={dashContainerStyles}>
@@ -112,7 +164,7 @@ function App() {
           {/* main cat buttons */}
           <div className={containerStyles}>
             <div className={`${dashContainerStyles} py-9`}>
-              <h2 className="text-4xl text-shadow-lg/25 text-shadow-gray-500">
+              <h2 className="text-[2.5em] text-shadow-lg/25 text-shadow-gray-500">
                 Categories
               </h2>
               <div className="flex flex-col min-w-[250px] min-h-[150px] justify-between mt-5.5">
@@ -134,16 +186,9 @@ function App() {
             <div className={dashContainerStyles}>
               {selectedMain != "" ? (
                 <>
-                  <h2 className="text-3xl">{selectedMain}</h2>
-                  <div className="w-[250px] gap-3 flex justify-center flex-wrap">
-                    {selectedSub.slice(1).map((subCat) => (
-                      <button
-                        key={subCat}
-                        className="h-22 bg-accent-red/30 font-semibold text-xl w-22 leading-6"
-                      >
-                        {subCat}
-                      </button>
-                    ))}
+                  <h2 className="text-[2.5em]">{selectedMain}</h2>
+                  <div className="w-[250px] mt-5 gap-3 flex justify-center flex-wrap">
+                    {displaySubs()}
                   </div>
                 </>
               ) : (
@@ -151,6 +196,8 @@ function App() {
               )}
             </div>
           </div>
+          {/* resources */}
+          <div>{showResources()}</div>
         </main>
       </div>
     </div>
