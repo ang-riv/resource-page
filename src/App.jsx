@@ -11,6 +11,10 @@ function App() {
   const [mainCats, setMainCats] = useState([]);
   const [subCats, setSubCats] = useState([]);
   const [resources, setResources] = useState([]);
+
+  const [selectedMain, setSelectedMain] = useState("");
+  const [selectedSub, setSelectedSub] = useState([]);
+
   useEffect(() => {
     // fetch cats + sub cats
     const fetchCats = async () => {
@@ -67,7 +71,14 @@ function App() {
     // fetch all res
     fetchCats();
     fetchRes();
-  }, []);
+
+    if (selectedMain != "") {
+      const subCatIndex = subCats.findIndex(
+        (subCat) => subCat[0] === selectedMain
+      );
+      setSelectedSub(subCats[subCatIndex]);
+    }
+  }, [selectedMain]);
 
   // styles
   const containerStyles =
@@ -95,12 +106,10 @@ function App() {
           <div className={containerStyles}>
             <div className={dashContainerStyles}>
               <h2 className="text-2xl">Friendly Remainder: </h2>
-              <p className="font-semibold mt-2">
-                try before you cry for help :)
-              </p>
+              <p className="font-semibold mt-2">try before you cry for help.</p>
             </div>
           </div>
-          {/* main cats */}
+          {/* main cat buttons */}
           <div className={containerStyles}>
             <div className={`${dashContainerStyles} py-9`}>
               <h2 className="text-4xl text-shadow-lg/25 text-shadow-gray-500">
@@ -110,7 +119,9 @@ function App() {
                 {mainCats.length != 0 &&
                   mainCats.map((cat, index) => (
                     <button
+                      key={cat}
                       className={`${mainBtnColors[index]} font-semibold h-fit py-2`}
+                      onClick={() => setSelectedMain(cat)}
                     >
                       {cat}
                     </button>
@@ -118,9 +129,27 @@ function App() {
               </div>
             </div>
           </div>
-
+          {/* main cat + sub cats */}
           <div className={containerStyles}>
-            <div className={dashContainerStyles}></div>
+            <div className={dashContainerStyles}>
+              {selectedMain != "" ? (
+                <>
+                  <h2 className="text-3xl">{selectedMain}</h2>
+                  <div className="w-[250px] gap-3 flex justify-center flex-wrap">
+                    {selectedSub.slice(1).map((subCat) => (
+                      <button
+                        key={subCat}
+                        className="h-22 bg-accent-red/30 font-semibold text-xl w-22 leading-6"
+                      >
+                        {subCat}
+                      </button>
+                    ))}
+                  </div>
+                </>
+              ) : (
+                <p className="font-semibold">Select a category.</p>
+              )}
+            </div>
           </div>
         </main>
       </div>
