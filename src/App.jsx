@@ -131,13 +131,43 @@ function App() {
     });
     return showRes;
   };
+
+  const showResInfo = () => {
+    const resIndex = resources.findIndex((res) => res.title === openRes);
+    const currentRes = resources[resIndex];
+
+    // pdf
+    let embedLink;
+    if (currentRes.pdf != "") {
+      const match = currentRes.pdf.match(/\/d\/([^/]+)/)[1];
+      embedLink = `https://drive.google.com/file/d/${match}/preview`;
+    }
+
+    return (
+      <div className="w-full h-full absolute bg-accent-red py-2 flex flex-col">
+        <h4 className="w-full text-center font-semibold text-2xl">
+          {currentRes.title}
+        </h4>
+        <iframe
+          src={embedLink}
+          className="w-full h-7/10"
+          frameborder="0"
+        ></iframe>
+      </div>
+    );
+  };
   return (
     <div className="min-h-screen bg-beige">
       {openRes != "" && (
         <>
-          <div className="fixed bg-black h-full w-full opacity-50 z-10"></div>
+          <div className="fixed h-full w-full z-10 flex justify-center items-center">
+            <div className="fixed bg-black opacity-50 h-full w-full"></div>
+            <div className="w-11/12 h-9/10 bg-white absolute">
+              {showResInfo()}
+            </div>
+          </div>
           <button
-            className="h-10 w-10 rounded-full fixed bg-accent-green z-20 font-bold text-white"
+            className="h-9 w-9 rounded-full fixed bg-accent-yellow z-20 font-bold"
             onClick={() => setOpenRes("")}
           >
             X
