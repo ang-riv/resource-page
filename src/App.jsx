@@ -1,10 +1,11 @@
 import { useState, useEffect } from "react";
 // cat = categories, res = resources
 import logo from "../src/assets/imgs/logo.png";
+const apiKey = import.meta.env.VITE_API_KEY;
+const sheetID = import.meta.env.VITE_SHEET_ID;
 function App() {
   // google sheets api info
-  const apiKey = import.meta.env.VITE_API_KEY;
-  const sheetID = import.meta.env.VITE_SHEET_ID;
+
   const catRange = "Categories!A:C";
   const resRange = "Resources!A:G";
 
