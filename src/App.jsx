@@ -137,20 +137,33 @@ function App() {
     const currentRes = resources[resIndex];
 
     // pdf
-    let embedLink;
+    let embedPDF, embedVid;
     if (currentRes.pdf != "") {
-      const match = currentRes.pdf.match(/\/d\/([^/]+)/)[1];
-      embedLink = `https://drive.google.com/file/d/${match}/preview`;
+      const pdfMatch = currentRes.pdf.match(/\/d\/([^/]+)/)[1];
+      embedPDF = `https://drive.google.com/file/d/${pdfMatch}/preview`;
+    }
+    if (currentRes.video != "") {
+      const vidMatch = currentRes.video.match(
+        /(?:youtube\.com\/.*v=|youtu\.be\/)([^&?/]+)/
+      );
+      embedVid = `https://www.youtube.com/embed/${vidMatch?.[1]}`;
     }
 
     return (
-      <div className="w-full h-full absolute bg-accent-red py-2 flex flex-col">
-        <h4 className="w-full text-center font-semibold text-2xl">
+      <div className="w-full h-full absolute bg-white py-2 flex flex-col">
+        <h4 className="w-full text-center font-bold text-3xl my-2">
           {currentRes.title}
         </h4>
+        <p className="text-lg">✦ PDF Instructions</p>
         <iframe
-          src={embedLink}
-          className="w-full h-7/10"
+          src={embedPDF}
+          className="w-full h-5/10"
+          frameborder="0"
+        ></iframe>
+        <p className="text-lg">✦ Video</p>
+        <iframe
+          src={embedVid}
+          className="w-full h-5/10"
           frameborder="0"
         ></iframe>
       </div>
