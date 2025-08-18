@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 // cat = categories, res = resources
 import logo from "../src/assets/imgs/logo.png";
-import { mainIcons } from "./assets/imgs/icons";
+import { mainIcons, subIcons } from "./assets/imgs/icons";
 function App() {
   // google sheets api info
   const apiKey = import.meta.env.VITE_API_KEY;
@@ -102,15 +102,21 @@ function App() {
 
   // fcns
   const displaySubs = () => {
-    const subBtns = showSubs.slice(1).map((subCat) => (
-      <button
-        key={subCat}
-        className="h-22 bg-accent-red/30 font-semibold text-xl w-22 leading-6"
-        onClick={() => setSelectedSub(subCat)}
-      >
-        {subCat}
-      </button>
-    ));
+    const subBtns = showSubs.slice(1).map((subCat, index) => {
+      const icon = subCat.replace(/\d+/g, "ten").toLowerCase();
+      const iconString = icon.split(" ")[0];
+      console.log(icon, iconString);
+      return (
+        <button
+          key={subCat}
+          className={`h-28 ${mainBtnColors[index]} font-bold text-xl w-28 leading-6 ${mainBtnHovers[index]} hover:text-white hover:cursor-pointer flex flex-col justify-center items-center`}
+          onClick={() => setSelectedSub(subCat)}
+        >
+          <div className="py-1.5">{subIcons[iconString]}</div>
+          <p className="w-[100px]">{subCat}</p>
+        </button>
+      );
+    });
     return subBtns;
   };
   const showResources = () => {
@@ -223,7 +229,7 @@ function App() {
                   mainCats.map((cat, index) => (
                     <button
                       key={cat}
-                      className={`${mainBtnColors[index]} font-bold h-fit py-2 flex justify-base items-center hover:text-white ${mainBtnHovers[index]}`}
+                      className={`${mainBtnColors[index]} font-bold h-fit py-2 flex justify-base items-center hover:text-white ${mainBtnHovers[index]} hover:cursor-pointer`}
                       onClick={() => setSelectedMain(cat)}
                     >
                       <div className="pl-1.5">{mainIcons[index]}</div>
