@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 // cat = categories, res = resources
 import logo from "../src/assets/imgs/logo.png";
+import { mainIcons } from "./assets/imgs/icons";
 function App() {
   // google sheets api info
   const apiKey = import.meta.env.VITE_API_KEY;
@@ -93,6 +94,11 @@ function App() {
     "bg-accent-orange/30",
     "bg-accent-green/30",
   ];
+  const mainBtnHovers = [
+    "hover:bg-accent-red",
+    "hover:bg-accent-orange",
+    "hover:bg-accent-green",
+  ];
 
   // fcns
   const displaySubs = () => {
@@ -169,6 +175,8 @@ function App() {
       </div>
     );
   };
+
+  // main cat hover
   return (
     <div className="min-h-screen bg-beige">
       {openRes != "" && (
@@ -215,10 +223,11 @@ function App() {
                   mainCats.map((cat, index) => (
                     <button
                       key={cat}
-                      className={`${mainBtnColors[index]} font-semibold h-fit py-2`}
+                      className={`${mainBtnColors[index]} font-bold h-fit py-2 flex justify-base items-center hover:text-white ${mainBtnHovers[index]}`}
                       onClick={() => setSelectedMain(cat)}
                     >
-                      {cat}
+                      <div className="pl-1.5">{mainIcons[index]}</div>
+                      <p className="grow-1">{cat}</p>
                     </button>
                   ))}
               </div>
