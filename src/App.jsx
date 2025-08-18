@@ -236,12 +236,12 @@ function App() {
         </>
       )}
       {
-        <div
-          className="fixed bottom-0 right-0 bg-black/30 rounded-full p-1 m-1.5"
+        <button
+          className="fixed bottom-0 right-0 bg-black/30 rounded-full p-1 m-1.5 hover:cursor-pointer"
           onClick={() => scrollToTop()}
         >
           <BackToTopIcon />
-        </div>
+        </button>
       }
       <div className="w-full min-h-screen bg-primary-green flex justify-start flex-col p-2">
         <header className={containerStyles}>
