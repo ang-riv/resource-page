@@ -158,7 +158,7 @@ export function VideoIcon(props) {
     >
       <path
         fill="none"
-        stroke="#000"
+        stroke="currentColor"
         strokeLinecap="round"
         strokeLinejoin="round"
         strokeWidth={2}

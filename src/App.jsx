@@ -119,7 +119,7 @@ function App() {
 
   // styles
   const containerStyles =
-    "min-w-[300px] bg-white h-fit p-2 [&:not(header)]:mt-5";
+    "min-w-[300px] bg-white h-fit p-2 [&:not(header)]:mt-5 shadow-[rgba(0,0,0,0.25)_3px_3px_6px,rgba(0,0,0,0.18)_6px_6px_12px]";
   const dashContainerStyles =
     "dash-border w-full h-full flex flex-col justify-center items-center py-5";
   const mainBtnColors = [
@@ -164,8 +164,8 @@ function App() {
       const fileID = thumbnail.match(/\/d\/([^/]+)/)?.[1];
       imgSrc = `https://drive.google.com/thumbnail?id=${fileID}`;
       return (
-        <div className="bg-white h-[350px] mt-5">
-          <h3 className="bg-accent-yellow w-fit pl-3 pr-2 text-2xl absolute mt-4">
+        <div className="bg-white h-[350px] mt-5 shadow-[rgba(0,0,0,0.25)_3px_3px_6px,rgba(0,0,0,0.18)_6px_6px_12px] hover:cursor-pointer">
+          <h3 className="bg-accent-yellow w-fit pl-3 pr-2 text-2xl absolute mt-4 shadow-sm shadow-gray-400">
             {res.title}
           </h3>
           <img
@@ -209,7 +209,6 @@ function App() {
         }
       }
       infoCounter++;
-      console.log("here");
     }
 
     return (
@@ -289,7 +288,7 @@ function App() {
                 >
                   <h2 className="text-2xl md:mr-2">Friendly Reminder: </h2>
                   <p className="font-semibold mt-2">
-                    try before you cry for help.
+                    try before you cry for help 😁
                   </p>
                 </div>
               </div>
@@ -306,7 +305,7 @@ function App() {
                         mainCats.map((cat, index) => (
                           <button
                             key={cat}
-                            className={`${mainBtnColors[index]} font-bold h-fit py-2 flex justify-base items-center hover:text-white ${mainBtnHovers[index]} hover:cursor-pointer`}
+                            className={`${mainBtnColors[index]} font-bold h-fit py-2 flex justify-base items-center hover:text-white text-lg ${mainBtnHovers[index]} hover:cursor-pointer`}
                             onClick={() => {
                               setSelectedMain(cat);
                               setSectionSize(true);
