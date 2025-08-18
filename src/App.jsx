@@ -219,7 +219,7 @@ function App() {
   };
 
   return (
-    <div className="min-h-screen bg-beige flex items-center justify-center">
+    <div className="min-h-screen bg-beige flex items-center justify-center lg:p-5">
       {openRes != "" && (
         <>
           <div className="fixed h-full w-full z-10 flex justify-center items-center">
@@ -245,27 +245,27 @@ function App() {
         </button>
       }
       {/* header */}
-      <div className="w-full min-h-screen bg-primary-green flex justify-start flex-col p-2 items-center min-[600px]:border-14 min-[600px]:border-gray-400 min-[600px]:py-4 max-w-5xl">
+      <div className="w-full h-fit bg-primary-green flex justify-start flex-col p-2 items-center min-[600px]:border-14 min-[600px]:border-gray-400 min-[600px]:py-4 max-w-5xl md:m-3">
         <div className="w-fit">
-          <header className={`${containerStyles} max-w-[620px]`}>
+          <header className={`${containerStyles} max-w-[650px]`}>
             <div className={`${dashContainerStyles} md:flex-row`}>
               <img
                 src={logo}
                 alt=""
-                className="w-[160px] h-[160px] md:w-[120px] md:h-[120px] md:mr-3"
+                className="w-[160px] h-[160px] md:w-[80px] md:h-[80px] md:mr-3"
               />
               <h1 className="text-[2.7rem] text-center leading-10 text-shadow-lg/25 text-shadow-gray-500 mt-7">
                 Ms. Shane's <br className="md:hidden" /> Resource Page
               </h1>
             </div>
           </header>
-          <main className="w-full h-fit max-w-[620px]">
+          <main className="w-full h-fit max-w-[650px]">
             {/* reminder */}
             <div className={containerStyles}>
               <div
                 className={`${dashContainerStyles} md:flex-row md:items-baseline`}
               >
-                <h2 className="text-2xl md:mr-2">Friendly Remainder: </h2>
+                <h2 className="text-2xl md:mr-2">Friendly Reminder: </h2>
                 <p className="font-semibold mt-2">
                   try before you cry for help.
                 </p>
@@ -274,7 +274,7 @@ function App() {
             {/* main cat buttons */}
             {/* cat wrapper */}
             <div className="md:flex md:flex-row md:justify-center md:gap-x-5">
-              <div className={containerStyles}>
+              <div className={`${containerStyles}`}>
                 <div className={`${dashContainerStyles} py-9`}>
                   <h2 className="text-[2.5em] text-shadow-lg/25 text-shadow-gray-500">
                     Categories
