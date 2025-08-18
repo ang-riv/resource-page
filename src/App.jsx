@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 // cat = categories, res = resources
 import logo from "../src/assets/imgs/logo.png";
 import { mainIcons, subIcons } from "./assets/imgs/icons";
@@ -18,7 +18,27 @@ function App() {
   const [selectedSub, setSelectedSub] = useState("");
   const [openRes, setOpenRes] = useState("");
 
+  // scrolling
+  const [sectionSize, setSectionSize] = useState(false);
+  const mainCatRef = useRef(null);
+  const scrollToButton = () => {
+    window.scrollTo({
+      top: document.documentElement.scrollHeight,
+      behavior: "smooth",
+    });
+  };
   useEffect(() => {
+    const div = mainCatRef.current;
+    if (!div) return;
+    // Create a ResizeObserver that triggers scroll when div size changes
+    const observer = new ResizeObserver(() => {
+      div.scrollIntoView({ behavior: "smooth", block: "start" });
+    });
+
+    if (sectionSize) {
+      observer.observe(div); // start observing when div is expanded
+    }
+
     // fetch cats + sub cats
     const fetchCats = async () => {
       try {
@@ -82,7 +102,8 @@ function App() {
       );
       setShowSubs(subCats[subCatIndex]);
     }
-  }, [selectedMain]);
+    return () => observer.disconnect(); // clean up
+  }, [selectedMain, sectionSize]);
 
   // styles
   const containerStyles =
@@ -182,7 +203,6 @@ function App() {
     );
   };
 
-  // main cat hover
   return (
     <div className="min-h-screen bg-beige">
       {openRes != "" && (
@@ -230,7 +250,10 @@ function App() {
                     <button
                       key={cat}
                       className={`${mainBtnColors[index]} font-bold h-fit py-2 flex justify-base items-center hover:text-white ${mainBtnHovers[index]} hover:cursor-pointer`}
-                      onClick={() => setSelectedMain(cat)}
+                      onClick={() => {
+                        setSelectedMain(cat);
+                        setSectionSize(true);
+                      }}
                     >
                       <div className="pl-1.5">{mainIcons[index]}</div>
                       <p className="grow-1">{cat}</p>
@@ -241,7 +264,7 @@ function App() {
           </div>
           {/* main cat + sub cats */}
           <div className={containerStyles}>
-            <div className={dashContainerStyles}>
+            <div className={dashContainerStyles} ref={mainCatRef}>
               {selectedMain != "" ? (
                 <>
                   <h2 className="text-[2.5em]">{selectedMain}</h2>
