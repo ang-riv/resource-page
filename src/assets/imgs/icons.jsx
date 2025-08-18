@@ -147,12 +147,12 @@ export function BagIcon(props) {
   );
 }
 
-export function LinkIcon(props) {
+export function VideoIcon(props) {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
-      width={48}
-      height={48}
+      width={54}
+      height={54}
       viewBox="0 0 24 24"
       {...props}
     >
@@ -161,8 +161,8 @@ export function LinkIcon(props) {
         stroke="#000"
         strokeLinecap="round"
         strokeLinejoin="round"
-        strokeWidth={1.5}
-        d="M12 21a9 9 0 1 0 0-18m0 18a9 9 0 1 1 0-18m0 18c2.761 0 3.941-5.163 3.941-9S14.761 3 12 3m0 18c-2.761 0-3.941-5.163-3.941-9S9.239 3 12 3M3.5 9h17m-17 6h17"
+        strokeWidth={2}
+        d="m15 10l4.553-2.276A1 1 0 0 1 21 8.618v6.764a1 1 0 0 1-1.447.894L15 14zM3 8a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"
       ></path>
     </svg>
   );
@@ -199,5 +199,5 @@ export const subIcons = {
   patterns: <ScissorsIcon />,
   ten: <ClockIcon />,
   final: <BagIcon />,
-  link: <LinkIcon />,
+  videos: <VideoIcon />,
 };

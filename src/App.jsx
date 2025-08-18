@@ -78,14 +78,14 @@ function App() {
         // remove headers
         const excludeHeaders = result.values.slice(2);
         const resObj = excludeHeaders.map(
-          ([mainCat, subCat, thumbnail, title, video, pdf, link]) => ({
+          ([mainCat, subCat, thumbnail, title, video, pdf, videos]) => ({
             mainCat,
             subCat,
             thumbnail,
             title,
             video,
             pdf,
-            link,
+            videos,
           })
         );
         setResources(resObj || {});
@@ -191,30 +191,25 @@ function App() {
       const pdfMatch = currentRes.pdf.match(/\/d\/([^/]+)/)[1];
       embedPDF = `https://drive.google.com/file/d/${pdfMatch}/preview`;
       infoCounter++;
-      console.log("PDF", currentRes);
     }
     if (currentRes.video != undefined && currentRes.video != "") {
       // if it's a youtube vid or a google vid
-
       if (currentRes.video.includes("you")) {
         const vidMatch = currentRes.video.match(
           /(?:youtube\.com\/.*v=|youtu\.be\/)([^&?/]+)/
         );
         embedVid = `https://www.youtube.com/embed/${vidMatch?.[1]}`;
-        console.log("you");
       } else {
         const vidMatch = currentRes.video.match(/\/d\/([^/]+)/);
         if (vidMatch) {
           const fileID = vidMatch[1];
           embedVid = `https://drive.google.com/file/d/${fileID}/preview`;
-          console.log("goog");
         } else {
           console.log("could not extract file ID");
         }
       }
-
       infoCounter++;
-      console.log("Video", currentRes);
+      console.log("here");
     }
 
     return (
