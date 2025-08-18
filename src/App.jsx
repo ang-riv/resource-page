@@ -93,9 +93,6 @@ function App() {
         console.error("Error fetching resources: ", error);
       }
     };
-    // fetch all res
-    fetchCats();
-    fetchRes();
 
     if (selectedMain != "") {
       const subCatIndex = subCats.findIndex(
@@ -106,6 +103,9 @@ function App() {
     if (subCatRef.current) {
       subCatRef.current.scrollIntoView({ behavior: "smooth", block: "start" });
     }
+    // fetch all res
+    fetchCats();
+    fetchRes();
   }, [selectedMain, showRes]);
 
   // scrolling
@@ -183,147 +183,175 @@ function App() {
   const showResInfo = () => {
     const resIndex = resources.findIndex((res) => res.title === openRes);
     const currentRes = resources[resIndex];
+    let infoCounter = 0;
 
     // pdf
     let embedPDF, embedVid;
-    if (currentRes.pdf != "") {
+    if (currentRes.pdf != undefined && currentRes.pdf != "") {
       const pdfMatch = currentRes.pdf.match(/\/d\/([^/]+)/)[1];
       embedPDF = `https://drive.google.com/file/d/${pdfMatch}/preview`;
+      infoCounter++;
+      console.log("PDF", currentRes);
     }
-    if (currentRes.video != "") {
-      const vidMatch = currentRes.video.match(
-        /(?:youtube\.com\/.*v=|youtu\.be\/)([^&?/]+)/
-      );
-      embedVid = `https://www.youtube.com/embed/${vidMatch?.[1]}`;
+    if (currentRes.video != undefined && currentRes.video != "") {
+      // if it's a youtube vid or a google vid
+
+      if (currentRes.video.includes("you")) {
+        const vidMatch = currentRes.video.match(
+          /(?:youtube\.com\/.*v=|youtu\.be\/)([^&?/]+)/
+        );
+        embedVid = `https://www.youtube.com/embed/${vidMatch?.[1]}`;
+        console.log("you");
+      } else {
+        const vidMatch = currentRes.video.match(/\/d\/([^/]+)/);
+        if (vidMatch) {
+          const fileID = vidMatch[1];
+          embedVid = `https://drive.google.com/file/d/${fileID}/preview`;
+          console.log("goog");
+        } else {
+          console.log("could not extract file ID");
+        }
+      }
+
+      infoCounter++;
+      console.log("Video", currentRes);
     }
 
     return (
-      <div className="w-full h-full absolute bg-white py-2 flex flex-col">
-        <h4 className="w-full text-center font-bold text-3xl my-2">
+      <div className="w-full h-full absolute bg-white py-2 flex flex-col md:px-3">
+        <h4 className="w-full text-center font-bold text-3xl my-2 underline underline-offset-3">
           {currentRes.title}
         </h4>
-        <p className="text-lg">✦ PDF Instructions</p>
-        <iframe
-          src={embedPDF}
-          className="w-full h-5/10"
-          frameborder="0"
-        ></iframe>
-        <p className="text-lg">✦ Video</p>
-        <iframe
-          src={embedVid}
-          className="w-full h-5/10"
-          frameborder="0"
-        ></iframe>
+        {currentRes.pdf != undefined && currentRes.pdf != "" && (
+          <>
+            <p className="text-lg">✦ PDF Instructions</p>
+            <iframe
+              src={embedPDF}
+              className={`w-full ${infoCounter === 1 ? "h-10/10" : "h-5/10"}`}
+            ></iframe>
+          </>
+        )}
+        {currentRes.video != undefined && currentRes.video != "" && (
+          <>
+            <p className="text-lg mt-2">✦ Video</p>
+            <iframe
+              src={embedVid}
+              className={`w-full ${infoCounter === 1 ? "h-10/10" : "h-5/10"}`}
+            ></iframe>{" "}
+          </>
+        )}
       </div>
     );
   };
 
   return (
-    <div className="min-h-screen bg-beige flex items-center justify-center lg:p-5">
+    <>
       {openRes != "" && (
         <>
           <div className="fixed h-full w-full z-10 flex justify-center items-center">
-            <div className="fixed bg-black opacity-50 h-full w-full"></div>
+            <div className="fixed bg-black opacity-30 h-full w-full"></div>
             <div className="w-11/12 h-9/10 bg-white absolute">
+              <button
+                className="h-9 w-9 m-2 rounded-full fixed bg-accent-yellow z-20 font-bold"
+                onClick={() => setOpenRes("")}
+              >
+                X
+              </button>
               {showResInfo()}
             </div>
           </div>
-          <button
-            className="h-9 w-9 rounded-full fixed bg-accent-yellow z-20 font-bold"
-            onClick={() => setOpenRes("")}
-          >
-            X
-          </button>
         </>
       )}
-      {
-        <button
-          className="fixed bottom-0 right-0 bg-black/30 rounded-full p-1 m-1.5 hover:cursor-pointer"
-          onClick={() => scrollToTop()}
-        >
-          <BackToTopIcon />
-        </button>
-      }
-      {/* header */}
-      <div className="w-full h-fit bg-primary-green flex justify-start flex-col p-2 items-center min-[600px]:border-14 min-[600px]:border-gray-400 min-[600px]:py-4 max-w-5xl md:m-3">
-        <div className="w-fit">
-          <header className={`${containerStyles} max-w-[650px]`}>
-            <div className={`${dashContainerStyles} md:flex-row`}>
-              <img
-                src={logo}
-                alt=""
-                className="w-[160px] h-[160px] md:w-[80px] md:h-[80px] md:mr-3"
-              />
-              <h1 className="text-[2.7rem] text-center leading-10 text-shadow-lg/25 text-shadow-gray-500 mt-7">
-                Ms. Shane's <br className="md:hidden" /> Resource Page
-              </h1>
-            </div>
-          </header>
-          <main className="w-full h-fit max-w-[650px]">
-            {/* reminder */}
-            <div className={containerStyles}>
-              <div
-                className={`${dashContainerStyles} md:flex-row md:items-baseline`}
-              >
-                <h2 className="text-2xl md:mr-2">Friendly Reminder: </h2>
-                <p className="font-semibold mt-2">
-                  try before you cry for help.
-                </p>
+      <div className="min-h-screen bg-beige flex items-center justify-center lg:p-5">
+        {
+          <button
+            className="fixed bottom-0 right-0 bg-black/30 rounded-full p-1 m-1.5 hover:cursor-pointer"
+            onClick={() => scrollToTop()}
+          >
+            <BackToTopIcon />
+          </button>
+        }
+        {/* header */}
+        <div className="w-full h-fit bg-primary-green flex justify-start flex-col p-2 items-center min-[600px]:border-14 min-[600px]:border-gray-400 min-[600px]:py-4 max-w-5xl md:m-3">
+          <div className="w-fit">
+            <header className={`${containerStyles} max-w-[650px]`}>
+              <div className={`${dashContainerStyles} md:flex-row`}>
+                <img
+                  src={logo}
+                  alt=""
+                  className="w-[160px] h-[160px] md:w-[80px] md:h-[80px] md:mr-3"
+                />
+                <h1 className="text-[2.7rem] text-center leading-10 text-shadow-lg/25 text-shadow-gray-500 mt-7">
+                  Ms. Shane's <br className="md:hidden" /> Resource Page
+                </h1>
               </div>
-            </div>
-            {/* main cat buttons */}
-            {/* cat wrapper */}
-            <div className="md:flex md:flex-row md:justify-center md:gap-x-5">
-              <div className={`${containerStyles}`}>
-                <div className={`${dashContainerStyles} py-9`}>
-                  <h2 className="text-[2.5em] text-shadow-lg/25 text-shadow-gray-500">
-                    Categories
-                  </h2>
-                  <div className="flex flex-col min-w-[250px] min-h-[150px] justify-between mt-5.5">
-                    {mainCats.length != 0 &&
-                      mainCats.map((cat, index) => (
-                        <button
-                          key={cat}
-                          className={`${mainBtnColors[index]} font-bold h-fit py-2 flex justify-base items-center hover:text-white ${mainBtnHovers[index]} hover:cursor-pointer`}
-                          onClick={() => {
-                            setSelectedMain(cat);
-                            setSectionSize(true);
-                            setShowRes(false);
-                          }}
-                        >
-                          <div className="pl-1.5">{mainIcons[index]}</div>
-                          <p className="grow-1">{cat}</p>
-                        </button>
-                      ))}
+            </header>
+            <main className="w-full h-fit max-w-[650px]">
+              {/* reminder */}
+              <div className={containerStyles}>
+                <div
+                  className={`${dashContainerStyles} md:flex-row md:items-baseline`}
+                >
+                  <h2 className="text-2xl md:mr-2">Friendly Reminder: </h2>
+                  <p className="font-semibold mt-2">
+                    try before you cry for help.
+                  </p>
+                </div>
+              </div>
+              {/* main cat buttons */}
+              {/* cat wrapper */}
+              <div className="md:flex md:flex-row md:justify-center md:gap-x-5">
+                <div className={`${containerStyles}`}>
+                  <div className={`${dashContainerStyles} py-9`}>
+                    <h2 className="text-[2.5em] text-shadow-lg/25 text-shadow-gray-500">
+                      Categories
+                    </h2>
+                    <div className="flex flex-col min-w-[250px] min-h-[150px] justify-between mt-5.5">
+                      {mainCats.length != 0 &&
+                        mainCats.map((cat, index) => (
+                          <button
+                            key={cat}
+                            className={`${mainBtnColors[index]} font-bold h-fit py-2 flex justify-base items-center hover:text-white ${mainBtnHovers[index]} hover:cursor-pointer`}
+                            onClick={() => {
+                              setSelectedMain(cat);
+                              setSectionSize(true);
+                              setShowRes(false);
+                            }}
+                          >
+                            <div className="pl-1.5">{mainIcons[index]}</div>
+                            <p className="grow-1">{cat}</p>
+                          </button>
+                        ))}
+                    </div>
+                  </div>
+                </div>
+                {/* main cat + sub cats */}
+                <div className={containerStyles} ref={subCatRef}>
+                  <div className={dashContainerStyles} ref={mainCatRef}>
+                    {selectedMain != "" ? (
+                      <>
+                        <h2 className="text-[2.5em]">{selectedMain}</h2>
+                        <div className="w-[250px] mt-5 gap-3 flex justify-center flex-wrap">
+                          {displaySubs()}
+                        </div>
+                      </>
+                    ) : (
+                      <p className="font-semibold">Select a category.</p>
+                    )}
                   </div>
                 </div>
               </div>
-              {/* main cat + sub cats */}
-              <div className={containerStyles} ref={subCatRef}>
-                <div className={dashContainerStyles} ref={mainCatRef}>
-                  {selectedMain != "" ? (
-                    <>
-                      <h2 className="text-[2.5em]">{selectedMain}</h2>
-                      <div className="w-[250px] mt-5 gap-3 flex justify-center flex-wrap">
-                        {displaySubs()}
-                      </div>
-                    </>
-                  ) : (
-                    <p className="font-semibold">Select a category.</p>
-                  )}
+              {/* resources */}
+              {showRes && (
+                <div className="md:grid md:grid-cols-2 md:gap-x-5">
+                  {showResources()}
                 </div>
-              </div>
-            </div>
-            {/* resources */}
-            {showRes && (
-              <div className="md:grid md:grid-cols-2 md:gap-x-5">
-                {showResources()}
-              </div>
-            )}
-          </main>
+              )}
+            </main>
+          </div>
         </div>
       </div>
-    </div>
+    </>
   );
 }
 
