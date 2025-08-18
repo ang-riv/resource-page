@@ -1,7 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 // cat = categories, res = resources
 import logo from "../src/assets/imgs/logo.png";
-import { mainIcons, subIcons } from "./assets/imgs/icons";
+import { mainIcons, subIcons, BackToTopIcon } from "./assets/imgs/icons";
 function App() {
   // google sheets api info
   const apiKey = import.meta.env.VITE_API_KEY;
@@ -110,6 +110,12 @@ function App() {
 
   // scrolling
   scrollToSection(mainCatRef, sectionSize);
+  const scrollToTop = () => {
+    window.scrollTo({
+      top: 0,
+      behavior: "smooth",
+    });
+  };
 
   // styles
   const containerStyles =
@@ -229,6 +235,14 @@ function App() {
           </button>
         </>
       )}
+      {
+        <div
+          className="fixed bottom-0 right-0 bg-black/30 rounded-full p-1 m-1.5"
+          onClick={() => scrollToTop()}
+        >
+          <BackToTopIcon />
+        </div>
+      }
       <div className="w-full min-h-screen bg-primary-green flex justify-start flex-col p-2">
         <header className={containerStyles}>
           <div className={dashContainerStyles}>
