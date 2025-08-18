@@ -121,7 +121,7 @@ function App() {
   const containerStyles =
     "min-w-[300px] bg-white h-fit p-2 [&:not(header)]:mt-5";
   const dashContainerStyles =
-    "dash-border w=full h-full flex flex-col justify-center items-center py-5";
+    "dash-border w-full h-full flex flex-col justify-center items-center py-5";
   const mainBtnColors = [
     "bg-accent-red/30",
     "bg-accent-orange/30",
@@ -154,6 +154,7 @@ function App() {
     });
     return subBtns;
   };
+
   const showResources = () => {
     const selectedRes = resources.filter((res) => res.subCat === selectedSub);
     const showRes = selectedRes.map((res) => {
@@ -163,7 +164,7 @@ function App() {
       const fileID = thumbnail.match(/\/d\/([^/]+)/)?.[1];
       imgSrc = `https://drive.google.com/thumbnail?id=${fileID}`;
       return (
-        <div className="min-w-[300px] bg-white h-[350px] mt-5">
+        <div className="bg-white h-[350px] mt-5">
           <h3 className="bg-accent-yellow w-fit pl-3 pr-2 text-2xl absolute mt-4">
             {res.title}
           </h3>
@@ -243,66 +244,84 @@ function App() {
           <BackToTopIcon />
         </button>
       }
-      <div className="w-full min-h-screen bg-primary-green flex justify-start flex-col p-2">
-        <header className={containerStyles}>
-          <div className={dashContainerStyles}>
-            <img src={logo} alt="" className="w-[160px] h-[160px]" />
-            <h1 className="text-[2.7rem] text-center leading-10 text-shadow-lg/25 text-shadow-gray-500 mt-7">
-              Ms. Shane's <br /> Resource Page
-            </h1>
-          </div>
-        </header>
-        <main className="w-full h-fit">
-          {/* reminder */}
-          <div className={containerStyles}>
-            <div className={dashContainerStyles}>
-              <h2 className="text-2xl">Friendly Remainder: </h2>
-              <p className="font-semibold mt-2">try before you cry for help.</p>
+      {/* header */}
+      <div className="w-full min-h-screen bg-primary-green flex justify-start flex-col p-2 items-center min-[600px]:border-14 min-[600px]:border-gray-400 min-[600px]:py-4">
+        <div className="w-fit">
+          <header className={`${containerStyles} max-w-[620px]`}>
+            <div className={`${dashContainerStyles} md:flex-row`}>
+              <img
+                src={logo}
+                alt=""
+                className="w-[160px] h-[160px] md:w-[120px] md:h-[120px] md:mr-3"
+              />
+              <h1 className="text-[2.7rem] text-center leading-10 text-shadow-lg/25 text-shadow-gray-500 mt-7">
+                Ms. Shane's <br className="md:hidden" /> Resource Page
+              </h1>
             </div>
-          </div>
-          {/* main cat buttons */}
-          <div className={containerStyles}>
-            <div className={`${dashContainerStyles} py-9`}>
-              <h2 className="text-[2.5em] text-shadow-lg/25 text-shadow-gray-500">
-                Categories
-              </h2>
-              <div className="flex flex-col min-w-[250px] min-h-[150px] justify-between mt-5.5">
-                {mainCats.length != 0 &&
-                  mainCats.map((cat, index) => (
-                    <button
-                      key={cat}
-                      className={`${mainBtnColors[index]} font-bold h-fit py-2 flex justify-base items-center hover:text-white ${mainBtnHovers[index]} hover:cursor-pointer`}
-                      onClick={() => {
-                        setSelectedMain(cat);
-                        setSectionSize(true);
-                        setShowRes(false);
-                      }}
-                    >
-                      <div className="pl-1.5">{mainIcons[index]}</div>
-                      <p className="grow-1">{cat}</p>
-                    </button>
-                  ))}
+          </header>
+          <main className="w-full h-fit max-w-[620px]">
+            {/* reminder */}
+            <div className={containerStyles}>
+              <div
+                className={`${dashContainerStyles} md:flex-row md:items-baseline`}
+              >
+                <h2 className="text-2xl md:mr-2">Friendly Remainder: </h2>
+                <p className="font-semibold mt-2">
+                  try before you cry for help.
+                </p>
               </div>
             </div>
-          </div>
-          {/* main cat + sub cats */}
-          <div className={containerStyles} ref={subCatRef}>
-            <div className={dashContainerStyles} ref={mainCatRef}>
-              {selectedMain != "" ? (
-                <>
-                  <h2 className="text-[2.5em]">{selectedMain}</h2>
-                  <div className="w-[250px] mt-5 gap-3 flex justify-center flex-wrap">
-                    {displaySubs()}
+            {/* main cat buttons */}
+            {/* cat wrapper */}
+            <div className="md:flex md:flex-row md:justify-center md:gap-x-5">
+              <div className={containerStyles}>
+                <div className={`${dashContainerStyles} py-9`}>
+                  <h2 className="text-[2.5em] text-shadow-lg/25 text-shadow-gray-500">
+                    Categories
+                  </h2>
+                  <div className="flex flex-col min-w-[250px] min-h-[150px] justify-between mt-5.5">
+                    {mainCats.length != 0 &&
+                      mainCats.map((cat, index) => (
+                        <button
+                          key={cat}
+                          className={`${mainBtnColors[index]} font-bold h-fit py-2 flex justify-base items-center hover:text-white ${mainBtnHovers[index]} hover:cursor-pointer`}
+                          onClick={() => {
+                            setSelectedMain(cat);
+                            setSectionSize(true);
+                            setShowRes(false);
+                          }}
+                        >
+                          <div className="pl-1.5">{mainIcons[index]}</div>
+                          <p className="grow-1">{cat}</p>
+                        </button>
+                      ))}
                   </div>
-                </>
-              ) : (
-                <p className="font-semibold">Select a category.</p>
-              )}
+                </div>
+              </div>
+              {/* main cat + sub cats */}
+              <div className={containerStyles} ref={subCatRef}>
+                <div className={dashContainerStyles} ref={mainCatRef}>
+                  {selectedMain != "" ? (
+                    <>
+                      <h2 className="text-[2.5em]">{selectedMain}</h2>
+                      <div className="w-[250px] mt-5 gap-3 flex justify-center flex-wrap">
+                        {displaySubs()}
+                      </div>
+                    </>
+                  ) : (
+                    <p className="font-semibold">Select a category.</p>
+                  )}
+                </div>
+              </div>
             </div>
-          </div>
-          {/* resources */}
-          {showRes && <div>{showResources()}</div>}
-        </main>
+            {/* resources */}
+            {showRes && (
+              <div className="md:grid md:grid-cols-2s md:gap-x-5">
+                {showResources()}
+              </div>
+            )}
+          </main>
+        </div>
       </div>
     </div>
   );

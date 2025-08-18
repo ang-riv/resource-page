@@ -7,6 +7,8 @@
   --color-accent-orange: #bc5c00;
   --color-accent-green: #4d806f;
   --color-accent-yellow: #f4e285;
+
+  --md-breakpoint: 31.25rem;
 }
 h1,
 h2,
