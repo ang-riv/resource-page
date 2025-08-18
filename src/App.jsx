@@ -20,25 +20,26 @@ function App() {
 
   // scrolling
   const [sectionSize, setSectionSize] = useState(false);
+  const [showRes, setShowRes] = useState(false);
+
   const mainCatRef = useRef(null);
-  const scrollToButton = () => {
-    window.scrollTo({
-      top: document.documentElement.scrollHeight,
-      behavior: "smooth",
-    });
+  const subCatRef = useRef(null);
+
+  const scrollToSection = (ref, section) => {
+    useEffect(() => {
+      if (!ref.current || !section) return;
+
+      const observer = new ResizeObserver(() => {
+        ref.current.scrollIntoView({ behavior: "smooth", block: "start" });
+      });
+
+      observer.observe(ref.current);
+
+      return () => observer.disconnect();
+    }, [ref, section]);
   };
+
   useEffect(() => {
-    const div = mainCatRef.current;
-    if (!div) return;
-    // Create a ResizeObserver that triggers scroll when div size changes
-    const observer = new ResizeObserver(() => {
-      div.scrollIntoView({ behavior: "smooth", block: "start" });
-    });
-
-    if (sectionSize) {
-      observer.observe(div); // start observing when div is expanded
-    }
-
     // fetch cats + sub cats
     const fetchCats = async () => {
       try {
@@ -102,8 +103,13 @@ function App() {
       );
       setShowSubs(subCats[subCatIndex]);
     }
-    return () => observer.disconnect(); // clean up
-  }, [selectedMain, sectionSize]);
+    if (subCatRef.current) {
+      subCatRef.current.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
+  }, [selectedMain, showRes]);
+
+  // scrolling
+  scrollToSection(mainCatRef, sectionSize);
 
   // styles
   const containerStyles =
@@ -126,12 +132,14 @@ function App() {
     const subBtns = showSubs.slice(1).map((subCat, index) => {
       const icon = subCat.replace(/\d+/g, "ten").toLowerCase();
       const iconString = icon.split(" ")[0];
-      console.log(icon, iconString);
       return (
         <button
           key={subCat}
           className={`h-28 ${mainBtnColors[index]} font-bold text-xl w-28 leading-6 ${mainBtnHovers[index]} hover:text-white hover:cursor-pointer flex flex-col justify-center items-center`}
-          onClick={() => setSelectedSub(subCat)}
+          onClick={() => {
+            setSelectedSub(subCat);
+            setShowRes(true);
+          }}
         >
           <div className="py-1.5">{subIcons[iconString]}</div>
           <p className="w-[100px]">{subCat}</p>
@@ -253,6 +261,7 @@ function App() {
                       onClick={() => {
                         setSelectedMain(cat);
                         setSectionSize(true);
+                        setShowRes(false);
                       }}
                     >
                       <div className="pl-1.5">{mainIcons[index]}</div>
@@ -263,7 +272,7 @@ function App() {
             </div>
           </div>
           {/* main cat + sub cats */}
-          <div className={containerStyles}>
+          <div className={containerStyles} ref={subCatRef}>
             <div className={dashContainerStyles} ref={mainCatRef}>
               {selectedMain != "" ? (
                 <>
@@ -278,7 +287,7 @@ function App() {
             </div>
           </div>
           {/* resources */}
-          <div>{showResources()}</div>
+          {showRes && <div>{showResources()}</div>}
         </main>
       </div>
     </div>
