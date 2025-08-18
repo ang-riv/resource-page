@@ -219,7 +219,7 @@ function App() {
   };
 
   return (
-    <div className="min-h-screen bg-beige">
+    <div className="min-h-screen bg-beige flex items-center justify-center">
       {openRes != "" && (
         <>
           <div className="fixed h-full w-full z-10 flex justify-center items-center">
@@ -245,7 +245,7 @@ function App() {
         </button>
       }
       {/* header */}
-      <div className="w-full min-h-screen bg-primary-green flex justify-start flex-col p-2 items-center min-[600px]:border-14 min-[600px]:border-gray-400 min-[600px]:py-4">
+      <div className="w-full min-h-screen bg-primary-green flex justify-start flex-col p-2 items-center min-[600px]:border-14 min-[600px]:border-gray-400 min-[600px]:py-4 max-w-5xl">
         <div className="w-fit">
           <header className={`${containerStyles} max-w-[620px]`}>
             <div className={`${dashContainerStyles} md:flex-row`}>
@@ -316,7 +316,7 @@ function App() {
             </div>
             {/* resources */}
             {showRes && (
-              <div className="md:grid md:grid-cols-2s md:gap-x-5">
+              <div className="md:grid md:grid-cols-2 md:gap-x-5">
                 {showResources()}
               </div>
             )}
