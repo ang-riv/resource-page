@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from "react";
+import { motion } from "motion/react";
 // cat = categories, res = resources
 import logo from "../src/assets/imgs/logo.png";
 import { mainIcons, subIcons, BackToTopIcon } from "./assets/imgs/icons";
@@ -284,10 +285,10 @@ function App() {
               {/* reminder */}
               <div className={containerStyles}>
                 <div
-                  className={`${dashContainerStyles} md:flex-row md:items-baseline`}
+                  className={`${dashContainerStyles} md:flex-row md:items-start`}
                 >
-                  <h2 className="text-2xl md:mr-2">Friendly Reminder: </h2>
-                  <p className="font-semibold mt-2">
+                  <h2 className="text-3xl md:mr-2">Friendly Reminder: </h2>
+                  <p className="font-semibold mt-2 text-md">
                     try before you cry for help 😁
                   </p>
                 </div>
@@ -295,8 +296,8 @@ function App() {
               {/* main cat buttons */}
               {/* cat wrapper */}
               <div className="md:flex md:flex-row md:justify-center md:gap-x-5">
-                <div className={`${containerStyles}`}>
-                  <div className={`${dashContainerStyles} py-9`}>
+                <div className={`${containerStyles} min-h-[371px]`}>
+                  <div className={`${dashContainerStyles} min-h-[355px] py-9`}>
                     <h2 className="text-[2.5em] text-shadow-lg/25 text-shadow-gray-500">
                       Categories
                     </h2>
