@@ -1,8 +1,9 @@
 import { useState, useEffect, useRef } from "react";
-import { motion } from "motion/react";
+import { motion, AnimatePresence } from "motion/react";
 // cat = categories, res = resources
 import logo from "../src/assets/imgs/logo.png";
 import { mainIcons, subIcons, BackToTopIcon } from "./assets/imgs/icons";
+import { animate } from "motion";
 function App() {
   // google sheets api info
   const apiKey = import.meta.env.VITE_API_KEY;
@@ -25,7 +26,11 @@ function App() {
 
   const mainCatRef = useRef(null);
   const subCatRef = useRef(null);
+  const boardRef = useRef(null);
 
+  // board size
+  const [boardSize, setBoardSize] = useState({ width: 0, height: 0 });
+  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
   const scrollToSection = (ref, section) => {
     useEffect(() => {
       if (!ref.current || !section) return;
@@ -107,8 +112,16 @@ function App() {
     // fetch all res
     fetchCats();
     fetchRes();
-  }, [selectedMain, showRes]);
 
+    const handleResize = () => {
+      setWindowWidth(window.innerWidth);
+    };
+    window.addEventListener("resize", handleResize);
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, [selectedMain, showRes]);
+  console.log(boardSize);
   // scrolling
   scrollToSection(mainCatRef, sectionSize);
   const scrollToTop = () => {
@@ -118,6 +131,12 @@ function App() {
     });
   };
 
+  useEffect(() => {
+    if (boardRef.current) {
+      const { width, height } = boardRef.current.getBoundingClientRect();
+      setBoardSize({ width, height });
+    }
+  }, []);
   // styles
   const containerStyles =
     "min-w-[300px] bg-white h-fit p-2 [&:not(header)]:mt-5 shadow-[rgba(0,0,0,0.25)_3px_3px_6px,rgba(0,0,0,0.18)_6px_6px_12px]";
@@ -238,7 +257,10 @@ function App() {
       </div>
     );
   };
-
+  const variants = {
+    animate: showRes ? { height: "auto" } : { height: `${boardSize.height}px` },
+    transition: { delay: 0.3, duration: 0.5 },
+  };
   return (
     <>
       {openRes != "" && (
@@ -267,23 +289,33 @@ function App() {
           </button>
         }
         {/* header */}
-        <div className="w-full h-fit bg-primary-green flex justify-start flex-col p-2 items-center min-[600px]:border-14 min-[600px]:border-gray-400 min-[600px]:py-4 max-w-5xl md:m-3">
-          <div className="w-fit">
-            <header className={`${containerStyles} max-w-[650px]`}>
-              <div className={`${dashContainerStyles} md:flex-row`}>
-                <img
+        <motion.div
+          ref={boardRef}
+          animate={
+            showRes ? { height: "auto" } : { height: `${boardSize.height}px` }
+          }
+          className="w-full h-fit bg-primary-green flex justify-start flex-col p-2 items-center min-[600px]:border-14 min-[600px]:border-gray-400 min-[600px]:py-4 max-w-5xl md:m-3"
+        >
+          {/* content wrapper */}
+          <motion.div className="w-fit" key="wrapper">
+            <motion.header
+              key="header"
+              className={`${containerStyles} max-w-[650px]`}
+            >
+              <motion.div className={`${dashContainerStyles} md:flex-row`}>
+                <motion.img
                   src={logo}
                   alt=""
                   className="w-[160px] h-[160px] md:w-[80px] md:h-[80px] md:mr-3"
                 />
-                <h1 className="text-[2.7rem] text-center leading-10 text-shadow-lg/25 text-shadow-gray-500 mt-7">
+                <motion.h1 className="text-[2.7rem] text-center leading-10 text-shadow-lg/25 text-shadow-gray-500 mt-7">
                   Ms. Shane's <br className="md:hidden" /> Resource Page
-                </h1>
-              </div>
-            </header>
-            <main className="w-full h-fit max-w-[650px]">
+                </motion.h1>
+              </motion.div>
+            </motion.header>
+            <motion.main key="main" className="w-full h-fit max-w-[650px]">
               {/* reminder */}
-              <div className={containerStyles}>
+              <motion.div className={containerStyles}>
                 <div
                   className={`${dashContainerStyles} md:flex-row md:items-start`}
                 >
@@ -292,7 +324,7 @@ function App() {
                     try before you cry for help 😁
                   </p>
                 </div>
-              </div>
+              </motion.div>
               {/* main cat buttons */}
               {/* cat wrapper */}
               <div className="md:flex md:flex-row md:justify-center md:gap-x-5">
@@ -337,14 +369,19 @@ function App() {
                 </div>
               </div>
               {/* resources */}
-              {showRes && (
-                <div className="md:grid md:grid-cols-2 md:gap-x-5">
-                  {showResources()}
-                </div>
-              )}
-            </main>
-          </div>
-        </div>
+              <AnimatePresence>
+                {showRes && (
+                  <motion.div
+                    key="resourceSection"
+                    className="md:grid md:grid-cols-2 md:gap-x-5"
+                  >
+                    {showResources()}
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </motion.main>
+          </motion.div>
+        </motion.div>
       </div>
     </>
   );
