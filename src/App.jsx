@@ -245,6 +245,12 @@ function App() {
     );
   };
 
+  const variants = {
+    initial: { opacity: 0, y: 15 },
+    animate: { opacity: 1, y: 0 },
+    exit: { opacity: 0, y: 15 },
+    transition: { delay: 0.3, duration: 0.7 },
+  };
   return (
     <>
       {openRes != "" && (
@@ -257,12 +263,13 @@ function App() {
               transition={{ duration: 0.5 }}
               className="w-11/12 h-9/10 bg-white absolute"
             >
-              <button
+              <motion.button
+                whileHover={{ scale: 1.1 }}
                 className="h-9 w-9 m-2 rounded-full fixed bg-black/30 z-20 font-bold hover:cursor-pointer hover:bg-accent-red hover:text-white"
                 onClick={() => setOpenRes("")}
               >
                 X
-              </button>
+              </motion.button>
               {showResInfo()}
             </motion.div>
           </div>
@@ -270,117 +277,130 @@ function App() {
       )}
       <div className="min-h-screen bg-beige flex items-center justify-center lg:p-5">
         {
-          <button
+          <motion.button
+            whileHover={{ scale: 1.1 }}
             className="fixed bottom-0 right-0 bg-black/30 rounded-full p-1 m-1.5 hover:cursor-pointer hover:bg-accent-red hover:text-white"
             onClick={() => scrollToTop()}
           >
             <BackToTopIcon />
-          </button>
+          </motion.button>
         }
         {/* header */}
         <motion.div className="w-full h-fit bg-primary-green flex justify-start flex-col p-2 items-center min-[600px]:border-14 min-[600px]:border-gray-400 min-[600px]:py-4 max-w-5xl md:m-3">
           {/* content wrapper */}
           <motion.div className="w-fit" key="wrapper">
-            <motion.header
-              key="header"
-              className={`${containerStyles} max-w-[650px]`}
-            >
-              <motion.div className={`${dashContainerStyles} md:flex-row`}>
-                <motion.img
-                  src={logo}
-                  alt=""
-                  className="w-[160px] h-[160px] md:w-[80px] md:h-[80px] md:mr-3"
-                />
-                <motion.h1 className="text-[2.7rem] text-center leading-10 text-shadow-lg/25 text-shadow-gray-500 mt-7">
-                  Ms. Shane's <br className="md:hidden" /> Resource Page
-                </motion.h1>
-              </motion.div>
-            </motion.header>
-            <motion.main key="main" className="w-full h-fit max-w-[650px]">
-              {/* reminder */}
-              <motion.div className={containerStyles}>
-                <div
-                  className={`${dashContainerStyles} md:flex-row md:items-start`}
-                >
-                  <h2 className="text-3xl md:mr-2">Friendly Reminder: </h2>
-                  <p className="font-semibold mt-2 text-md">
-                    try before you cry for help 😁
-                  </p>
-                </div>
-              </motion.div>
-              {/* main cat buttons */}
-              {/* cat wrapper */}
-              <div className="md:flex md:flex-row md:justify-center md:gap-x-5">
-                <div className={`${containerStyles} min-h-[371px]`}>
-                  <div className={`${dashContainerStyles} min-h-[355px] py-9`}>
-                    <h2 className="text-[2.5em] text-shadow-lg/25 text-shadow-gray-500">
-                      Categories
-                    </h2>
-                    <div className="flex flex-col min-w-[250px] min-h-[150px] justify-between mt-5.5">
-                      {mainCats.length != 0 &&
-                        mainCats.map((cat, index) => (
-                          <button
-                            key={cat}
-                            className={`${mainBtnColors[index]} font-bold h-fit py-2 flex justify-base items-center hover:text-white text-lg ${mainBtnHovers[index]} hover:cursor-pointer`}
-                            onClick={() => {
-                              setSelectedMain(cat);
-                              setSectionSize(true);
-                              setShowRes(false);
-                            }}
-                          >
-                            <div className="pl-1.5">{mainIcons[index]}</div>
-                            <p className="grow-1">{cat}</p>
-                          </button>
-                        ))}
-                    </div>
-                  </div>
-                </div>
-                {/* main cat + sub cats */}
-                <div className={containerStyles} ref={subCatRef}>
-                  <div className={dashContainerStyles} ref={mainCatRef}>
-                    {selectedMain != "" ? (
-                      <>
-                        <h2 className="text-[2.5em]">{selectedMain}</h2>
-                        <div className="w-[250px] mt-5 gap-3 flex justify-center flex-wrap">
-                          {displaySubs()}
-                        </div>
-                      </>
-                    ) : (
-                      <p className="font-semibold">Select a category.</p>
-                    )}
-                  </div>
-                </div>
-              </div>
-              {/* resources */}
-              <motion.div
-                key="resourceSection"
-                className="md:grid md:grid-cols-2 md:gap-x-5"
-                style={{ overflow: "hidden" }}
-                animate={
-                  showRes
-                    ? {
-                        scaleY: 1,
-                        height: "auto",
-                        opacity: 1,
-                        transition: { opacity: { delay: 0.3 } },
-                      }
-                    : {
-                        scaleY: 0,
-                        height: "0px",
-                        opacity: 0,
-                        transition: {
-                          scaleY: { delay: 0.3, duration: 0.6 },
-                          height: { delay: 0.3, duration: 0.6 },
-                        },
-                      }
-                }
-                transition={{
-                  duration: 0.6,
-                }}
+            <AnimatePresence mode="sync">
+              <motion.header
+                key="header"
+                className={`${containerStyles} max-w-[650px]`}
+                {...variants}
               >
-                {showResources()}
-              </motion.div>
-            </motion.main>
+                <div className={`${dashContainerStyles} md:flex-row`}>
+                  <img
+                    src={logo}
+                    alt=""
+                    className="w-[160px] h-[160px] md:w-[80px] md:h-[80px] md:mr-3"
+                  />
+                  <h1 className="text-[2.7rem] text-center leading-10 text-shadow-lg/25 text-shadow-gray-500 mt-7">
+                    Ms. Shane's <br className="md:hidden" /> Resource Page
+                  </h1>
+                </div>
+              </motion.header>
+              <motion.main key="main" className="w-full h-fit max-w-[650px]">
+                {/* reminder */}
+                <motion.div className={containerStyles} {...variants}>
+                  <div
+                    className={`${dashContainerStyles} md:flex-row md:items-start`}
+                  >
+                    <h2 className="text-3xl md:mr-2">Friendly Reminder: </h2>
+                    <p className="font-semibold mt-2 text-md">
+                      try before you cry for help 😁
+                    </p>
+                  </div>
+                </motion.div>
+                {/* main cat buttons */}
+                {/* cat wrapper */}
+                <div className="md:flex md:flex-row md:justify-center md:gap-x-5">
+                  <motion.div
+                    className={`${containerStyles} min-h-[371px]`}
+                    {...variants}
+                  >
+                    <div
+                      className={`${dashContainerStyles} min-h-[355px] py-9`}
+                    >
+                      <h2 className="text-[2.5em] text-shadow-lg/25 text-shadow-gray-500">
+                        Categories
+                      </h2>
+                      <div className="flex flex-col min-w-[250px] min-h-[150px] justify-between mt-5.5">
+                        {mainCats.length != 0 &&
+                          mainCats.map((cat, index) => (
+                            <button
+                              key={cat}
+                              className={`${mainBtnColors[index]} font-bold h-fit py-2 flex justify-base items-center hover:text-white text-lg ${mainBtnHovers[index]} hover:cursor-pointer`}
+                              onClick={() => {
+                                setSelectedMain(cat);
+                                setSectionSize(true);
+                                setShowRes(false);
+                              }}
+                            >
+                              <div className="pl-1.5">{mainIcons[index]}</div>
+                              <p className="grow-1">{cat}</p>
+                            </button>
+                          ))}
+                      </div>
+                    </div>
+                  </motion.div>
+                  {/* main cat + sub cats */}
+                  <motion.div
+                    className={containerStyles}
+                    ref={subCatRef}
+                    {...variants}
+                  >
+                    <div className={dashContainerStyles} ref={mainCatRef}>
+                      {selectedMain != "" ? (
+                        <>
+                          <h2 className="text-[2.5em]">{selectedMain}</h2>
+                          <div className="w-[250px] mt-5 gap-3 flex justify-center flex-wrap">
+                            {displaySubs()}
+                          </div>
+                        </>
+                      ) : (
+                        <p className="font-semibold">Select a category.</p>
+                      )}
+                    </div>
+                  </motion.div>
+                </div>
+                {/* resources */}
+                <motion.div
+                  key="resourceSection"
+                  className="md:grid md:grid-cols-2 md:gap-x-5"
+                  style={{ overflow: "hidden" }}
+                  animate={
+                    showRes
+                      ? {
+                          scaleY: 1,
+                          height: "auto",
+                          opacity: 1,
+                          transition: { opacity: { delay: 0.3 } },
+                        }
+                      : {
+                          scaleY: 0,
+                          height: "0px",
+                          opacity: 0,
+                          transition: {
+                            scaleY: { delay: 0.3, duration: 0.6 },
+                            height: { delay: 0.3, duration: 0.6 },
+                          },
+                        }
+                  }
+                  transition={{
+                    duration: 0.6,
+                  }}
+                >
+                  {showResources()}
+                </motion.div>
+              </motion.main>
+            </AnimatePresence>
           </motion.div>
         </motion.div>
       </div>
