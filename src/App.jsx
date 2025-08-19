@@ -3,7 +3,6 @@ import { motion, AnimatePresence } from "motion/react";
 // cat = categories, res = resources
 import logo from "../src/assets/imgs/logo.png";
 import { mainIcons, subIcons, BackToTopIcon } from "./assets/imgs/icons";
-import { animate } from "motion";
 function App() {
   // google sheets api info
   const apiKey = import.meta.env.VITE_API_KEY;
@@ -112,16 +111,7 @@ function App() {
     // fetch all res
     fetchCats();
     fetchRes();
-
-    const handleResize = () => {
-      setWindowWidth(window.innerWidth);
-    };
-    window.addEventListener("resize", handleResize);
-    return () => {
-      window.removeEventListener("resize", handleResize);
-    };
   }, [selectedMain, showRes]);
-  console.log(boardSize);
   // scrolling
   scrollToSection(mainCatRef, sectionSize);
   const scrollToTop = () => {
@@ -130,13 +120,6 @@ function App() {
       behavior: "smooth",
     });
   };
-
-  useEffect(() => {
-    if (boardRef.current) {
-      const { width, height } = boardRef.current.getBoundingClientRect();
-      setBoardSize({ width, height });
-    }
-  }, []);
   // styles
   const containerStyles =
     "min-w-[300px] bg-white h-fit p-2 [&:not(header)]:mt-5 shadow-[rgba(0,0,0,0.25)_3px_3px_6px,rgba(0,0,0,0.18)_6px_6px_12px]";
@@ -257,10 +240,7 @@ function App() {
       </div>
     );
   };
-  const variants = {
-    animate: showRes ? { height: "auto" } : { height: `${boardSize.height}px` },
-    transition: { delay: 0.3, duration: 0.5 },
-  };
+
   return (
     <>
       {openRes != "" && (
@@ -289,13 +269,7 @@ function App() {
           </button>
         }
         {/* header */}
-        <motion.div
-          ref={boardRef}
-          animate={
-            showRes ? { height: "auto" } : { height: `${boardSize.height}px` }
-          }
-          className="w-full h-fit bg-primary-green flex justify-start flex-col p-2 items-center min-[600px]:border-14 min-[600px]:border-gray-400 min-[600px]:py-4 max-w-5xl md:m-3"
-        >
+        <motion.div className="w-full h-fit bg-primary-green flex justify-start flex-col p-2 items-center min-[600px]:border-14 min-[600px]:border-gray-400 min-[600px]:py-4 max-w-5xl md:m-3">
           {/* content wrapper */}
           <motion.div className="w-fit" key="wrapper">
             <motion.header
@@ -369,16 +343,34 @@ function App() {
                 </div>
               </div>
               {/* resources */}
-              <AnimatePresence>
-                {showRes && (
-                  <motion.div
-                    key="resourceSection"
-                    className="md:grid md:grid-cols-2 md:gap-x-5"
-                  >
-                    {showResources()}
-                  </motion.div>
-                )}
-              </AnimatePresence>
+              <motion.div
+                key="resourceSection"
+                className="md:grid md:grid-cols-2 md:gap-x-5"
+                style={{ overflow: "hidden" }}
+                animate={
+                  showRes
+                    ? {
+                        scaleY: 1,
+                        height: "auto",
+                        opacity: 1,
+                        transition: { opacity: { delay: 0.3 } },
+                      }
+                    : {
+                        scaleY: 0,
+                        height: "0px",
+                        opacity: 0,
+                        transition: {
+                          scaleY: { delay: 0.3, duration: 0.6 },
+                          height: { delay: 0.3, duration: 0.6 },
+                        },
+                      }
+                }
+                transition={{
+                  duration: 0.6,
+                }}
+              >
+                {showResources()}
+              </motion.div>
             </motion.main>
           </motion.div>
         </motion.div>
