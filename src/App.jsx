@@ -160,14 +160,18 @@ function App() {
 
   const showResources = () => {
     const selectedRes = resources.filter((res) => res.subCat === selectedSub);
-    const showRes = selectedRes.map((res) => {
+    const showRes = selectedRes.map((res, index) => {
       // making the thumbnail
       let imgSrc;
       const thumbnail = res.thumbnail;
       const fileID = thumbnail.match(/\/d\/([^/]+)/)?.[1];
       imgSrc = `https://drive.google.com/thumbnail?id=${fileID}`;
       return (
-        <div className="bg-white h-[350px] mt-5 shadow-[rgba(0,0,0,0.25)_3px_3px_6px,rgba(0,0,0,0.18)_6px_6px_12px] hover:cursor-pointer">
+        <motion.div
+          key={index}
+          whileHover={{ scale: 0.97 }}
+          className="bg-white h-[350px] mt-5 shadow-[rgba(0,0,0,0.25)_3px_3px_6px,rgba(0,0,0,0.18)_6px_6px_12px] hover:cursor-pointer"
+        >
           <h3 className="bg-accent-yellow w-fit pl-3 pr-2 text-2xl absolute mt-4 shadow-sm shadow-gray-400">
             {res.title}
           </h3>
@@ -177,7 +181,7 @@ function App() {
             onClick={() => setOpenRes(res.title)}
             alt=""
           />
-        </div>
+        </motion.div>
       );
     });
     return showRes;
