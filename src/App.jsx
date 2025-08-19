@@ -251,22 +251,27 @@ function App() {
         <>
           <div className="fixed h-full w-full z-10 flex justify-center items-center">
             <div className="fixed bg-black opacity-30 h-full w-full"></div>
-            <div className="w-11/12 h-9/10 bg-white absolute">
+            <motion.div
+              initial={{ opacity: 0, scale: 0.5 }}
+              animate={{ opacity: 1, scale: 1 }}
+              transition={{ duration: 0.5 }}
+              className="w-11/12 h-9/10 bg-white absolute"
+            >
               <button
-                className="h-9 w-9 m-2 rounded-full fixed bg-accent-yellow z-20 font-bold"
+                className="h-9 w-9 m-2 rounded-full fixed bg-black/30 z-20 font-bold hover:cursor-pointer hover:bg-accent-red hover:text-white"
                 onClick={() => setOpenRes("")}
               >
                 X
               </button>
               {showResInfo()}
-            </div>
+            </motion.div>
           </div>
         </>
       )}
       <div className="min-h-screen bg-beige flex items-center justify-center lg:p-5">
         {
           <button
-            className="fixed bottom-0 right-0 bg-black/30 rounded-full p-1 m-1.5 hover:cursor-pointer"
+            className="fixed bottom-0 right-0 bg-black/30 rounded-full p-1 m-1.5 hover:cursor-pointer hover:bg-accent-red hover:text-white"
             onClick={() => scrollToTop()}
           >
             <BackToTopIcon />
