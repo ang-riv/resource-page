@@ -25,11 +25,8 @@ function App() {
 
   const mainCatRef = useRef(null);
   const subCatRef = useRef(null);
-  const boardRef = useRef(null);
 
-  // board size
-  const [boardSize, setBoardSize] = useState({ width: 0, height: 0 });
-  const [windowWidth, setWindowWidth] = useState(window.innerWidth);
+  const [reminderHover, setReminderHover] = useState(false);
   const scrollToSection = (ref, section) => {
     useEffect(() => {
       if (!ref.current || !section) return;
@@ -170,7 +167,7 @@ function App() {
         <motion.div
           key={index}
           whileHover={{ scale: 0.97 }}
-          className="bg-white h-[350px] mt-5 shadow-[rgba(0,0,0,0.25)_3px_3px_6px,rgba(0,0,0,0.18)_6px_6px_12px] hover:cursor-pointer"
+          className="bg-white h-[350px] mt-5 shadow-[rgba(0,0,0,0.25)_3px_3px_6px,rgba(0,0,0,0.18)_6px_6px_12px] hover:cursor-pointer hover:outline-3 hover:outline-accent-yellow"
         >
           <h3 className="bg-accent-yellow w-fit pl-3 pr-2 text-2xl absolute mt-4 shadow-sm shadow-gray-400">
             {res.title}
@@ -301,21 +298,39 @@ function App() {
                     alt=""
                     className="w-[160px] h-[160px] md:w-[80px] md:h-[80px] md:mr-3"
                   />
-                  <h1 className="text-[2.7rem] text-center leading-10 text-shadow-lg/25 text-shadow-gray-500 mt-7">
+                  <h1 className="text-[2.7rem] text-center leading-10  mt-7">
                     Ms. Shane's <br className="md:hidden" /> Resource Page
                   </h1>
                 </div>
               </motion.header>
               <motion.main key="main" className="w-full h-fit max-w-[650px]">
                 {/* reminder */}
-                <motion.div className={containerStyles} {...variants}>
+                <motion.div
+                  className={containerStyles}
+                  onMouseEnter={() => setReminderHover(true)}
+                  onMouseLeave={() => setReminderHover(false)}
+                  {...variants}
+                >
                   <div
                     className={`${dashContainerStyles} md:flex-row md:items-start`}
                   >
                     <h2 className="text-3xl md:mr-2">Friendly Reminder: </h2>
-                    <p className="font-semibold mt-2 text-md">
-                      try before you cry for help 😁
-                    </p>
+                    <div className="flex items-baseline">
+                      <p className="font-semibold mt-2 text-md">
+                        try before you cry for help
+                      </p>
+                      <motion.p
+                        className="ml-1"
+                        animate={
+                          reminderHover
+                            ? { scale: 1.6, rotate: [0, 15, -15, 15, 0] }
+                            : { scale: 1 }
+                        }
+                        transition={{ duration: 0.6 }}
+                      >
+                        😁
+                      </motion.p>
+                    </div>
                   </div>
                 </motion.div>
                 {/* main cat buttons */}
@@ -328,9 +343,7 @@ function App() {
                     <div
                       className={`${dashContainerStyles} min-h-[355px] py-9`}
                     >
-                      <h2 className="text-[2.5em] text-shadow-lg/25 text-shadow-gray-500">
-                        Categories
-                      </h2>
+                      <h2 className="text-[2.5em]">Categories</h2>
                       <div className="flex flex-col min-w-[250px] min-h-[150px] justify-between mt-5.5">
                         {mainCats.length != 0 &&
                           mainCats.map((cat, index) => (
@@ -350,7 +363,7 @@ function App() {
                       </div>
                     </div>
                   </motion.div>
-                  {/* main cat + sub cats */}
+                  {/* sub cats */}
                   <motion.div
                     className={containerStyles}
                     ref={subCatRef}
@@ -365,7 +378,9 @@ function App() {
                           </div>
                         </>
                       ) : (
-                        <p className="font-semibold">Select a category.</p>
+                        <p className="font-semibold hover:underline">
+                          Select a category.
+                        </p>
                       )}
                     </div>
                   </motion.div>
