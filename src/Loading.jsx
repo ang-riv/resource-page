@@ -5,7 +5,15 @@ const Loading = () => {
   const [stop, setStop] = useState(false);
   let dashes = [];
   for (let i = 0; i <= 10; i++) {
-    dashes.push(<p className="text-3xl mr-1.5 text-primary-green">-</p>);
+    dashes.push(
+      <p key={i} className="text-3xl mr-1.5 text-primary-green">
+        -
+      </p>
+    );
+  }
+  let xPositions = [];
+  for (let i = -40; i <= 160; i += 20) {
+    xPositions.push(i);
   }
   return (
     <>
@@ -14,7 +22,7 @@ const Loading = () => {
         <motion.div
           className="w-52 h-10 bg-white absolute"
           initial={{ clipPath: "inset(0 100% 0 0)" }} // fully hidden (from right)
-          animate={stop ? { clipPath: "inset(0 0 0 0)" } : {}} // reveal fully
+          animate={stop ? { clipPath: "inset(0 0% 0 0)" } : {}} // reveal fully
           transition={
             stop
               ? {
@@ -31,9 +39,7 @@ const Loading = () => {
         <motion.div
           className="absolute"
           initial={{ x: -40 }}
-          animate={
-            stop ? { x: [-40, -20, 0, 20, 40, 60, 80, 100, 120, 140, 160] } : {}
-          }
+          animate={stop ? { x: xPositions } : {}}
           transition={
             stop
               ? {

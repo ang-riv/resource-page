@@ -28,6 +28,7 @@ function App() {
   const subCatRef = useRef(null);
 
   const [reminderHover, setReminderHover] = useState(false);
+
   const scrollToSection = (ref, section) => {
     useEffect(() => {
       if (!ref.current || !section) return;
