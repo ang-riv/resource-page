@@ -345,8 +345,8 @@ function App() {
                     <div
                       className={`${dashContainerStyles} min-h-[355px] py-9`}
                     >
-                      <Loading />
-                      {/* <h2 className="text-[2.5em]">Categories</h2>
+                      {/* <Loading /> */}
+                      <h2 className="text-[2.5em]">Categories</h2>
                       <div className="flex flex-col min-w-[250px] min-h-[150px] justify-between mt-5.5">
                         {mainCats.length != 0 &&
                           mainCats.map((cat, index) => (
@@ -363,7 +363,7 @@ function App() {
                               <p className="grow-1">{cat}</p>
                             </button>
                           ))}
-                      </div> */}
+                      </div>
                     </div>
                   </motion.div>
                   {/* sub cats */}
