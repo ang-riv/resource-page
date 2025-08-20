@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from "motion/react";
 // cat = categories, res = resources
 import logo from "../src/assets/imgs/logo.png";
 import { mainIcons, subIcons, BackToTopIcon } from "./assets/imgs/icons";
+import Loading from "./Loading";
 function App() {
   // google sheets api info
   const apiKey = import.meta.env.VITE_API_KEY;
@@ -343,7 +344,8 @@ function App() {
                     <div
                       className={`${dashContainerStyles} min-h-[355px] py-9`}
                     >
-                      <h2 className="text-[2.5em]">Categories</h2>
+                      <Loading />
+                      {/* <h2 className="text-[2.5em]">Categories</h2>
                       <div className="flex flex-col min-w-[250px] min-h-[150px] justify-between mt-5.5">
                         {mainCats.length != 0 &&
                           mainCats.map((cat, index) => (
@@ -360,7 +362,7 @@ function App() {
                               <p className="grow-1">{cat}</p>
                             </button>
                           ))}
-                      </div>
+                      </div> */}
                     </div>
                   </motion.div>
                   {/* sub cats */}
