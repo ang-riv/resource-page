@@ -164,7 +164,7 @@ function App() {
       let imgSrc;
       const thumbnail = res.thumbnail;
       const fileID = thumbnail.match(/\/d\/([^/]+)/)?.[1];
-      imgSrc = `https://drive.google.com/uc?export=view?id=${fileID}`;
+      imgSrc = `https://drive.google.com/thumbnail?id=${fileID}&sz=w1000`;
       return (
         <motion.div
           key={index}
@@ -178,6 +178,7 @@ function App() {
             src={imgSrc}
             className="w-full h-full p-2 object-cover"
             onClick={() => setOpenRes(res.title)}
+            loading="lazy"
             alt=""
           />
         </motion.div>
