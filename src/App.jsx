@@ -6,6 +6,7 @@ import { mainIcons, subIcons, BackToTopIcon } from "./assets/imgs/icons";
 import Loading from "./Loading";
 import DisplaySubCats from "./components/DisplaySubCats";
 import ResourceInfo from "./components/ResourceInfo";
+import ShowResources from "./components/ShowResources";
 function App() {
   // google sheets api info
   const apiKey = import.meta.env.VITE_API_KEY;
@@ -153,93 +154,6 @@ function App() {
   };
 
   // fcns
-  const showResources = () => {
-    const selectedRes = resources.filter((res) => res.subCat === selectedSub);
-    const showRes = selectedRes.map((res, index) => {
-      // making the thumbnail
-      let imgSrc;
-      const thumbnail = res.thumbnail;
-      const fileID = thumbnail.match(/\/d\/([^/]+)/)?.[1];
-      imgSrc = `https://drive.google.com/thumbnail?id=${fileID}&sz=w600`;
-      return (
-        <motion.div
-          key={index}
-          whileHover={{ scale: 0.97 }}
-          className="bg-white h-[350px] mt-5 shadow-[rgba(0,0,0,0.25)_3px_3px_6px,rgba(0,0,0,0.18)_6px_6px_12px] hover:cursor-pointer hover:outline-3 hover:outline-accent-yellow"
-        >
-          <h3 className="bg-accent-yellow w-fit pl-3 pr-2 text-2xl absolute mt-4 shadow-sm shadow-gray-600">
-            {res.title}
-          </h3>
-          <img
-            src={imgSrc}
-            className="w-full h-full p-2 object-cover"
-            onClick={() => setOpenRes(res.title)}
-            loading="lazy"
-            alt=""
-          />
-        </motion.div>
-      );
-    });
-    return showRes;
-  };
-
-  const showResInfo = () => {
-    const resIndex = resources.findIndex((res) => res.title === openRes);
-    const currentRes = resources[resIndex];
-    let infoCounter = 0;
-
-    // pdf
-    let embedPDF, embedVid;
-    if (currentRes.pdf != undefined && currentRes.pdf != "") {
-      const pdfMatch = currentRes.pdf.match(/\/d\/([^/]+)/)[1];
-      embedPDF = `https://drive.google.com/file/d/${pdfMatch}/preview`;
-      infoCounter++;
-    }
-    if (currentRes.video != undefined && currentRes.video != "") {
-      // if it's a youtube vid or a google vid
-      if (currentRes.video.includes("you")) {
-        const vidMatch = currentRes.video.match(
-          /(?:youtube\.com\/.*v=|youtu\.be\/)([^&?/]+)/
-        );
-        embedVid = `https://www.youtube.com/embed/${vidMatch?.[1]}`;
-      } else {
-        const vidMatch = currentRes.video.match(/\/d\/([^/]+)/);
-        if (vidMatch) {
-          const fileID = vidMatch[1];
-          embedVid = `https://drive.google.com/file/d/${fileID}/preview`;
-        } else {
-          console.log("could not extract file ID");
-        }
-      }
-      infoCounter++;
-    }
-
-    return (
-      <div className="w-full h-full absolute bg-white py-2 flex flex-col md:px-3">
-        <h4 className="w-full text-center font-bold text-3xl my-2 underline underline-offset-3">
-          {currentRes.title}
-        </h4>
-        {currentRes.pdf != undefined && currentRes.pdf != "" && (
-          <>
-            <p className="text-lg">✦ PDF Instructions</p>
-            <iframe
-              src={embedPDF}
-              className={`w-full ${infoCounter === 1 ? "h-10/10" : "h-5/10"}`}
-            ></iframe>
-          </>
-        )}
-        {currentRes.video != undefined && currentRes.video != "" && (
-          <>
-            <p className="text-lg mt-2">✦ Video</p>
-            <iframe
-              src={embedVid}
-              className={`w-full ${infoCounter === 1 ? "h-10/10" : "h-5/10"}`}
-            ></iframe>
-          </>
-        )}
-      </div>
-    );
-  };
 
   const variants = {
     initial: { opacity: 0, y: 15 },
@@ -412,7 +326,11 @@ function App() {
                     duration: 0.6,
                   }}
                 >
-                  {showResources()}
+                  <ShowResources
+                    selectedSub={selectedSub}
+                    resources={resources}
+                    setOpenRes={setOpenRes}
+                  />
                 </motion.div>
               </motion.main>
             </AnimatePresence>
