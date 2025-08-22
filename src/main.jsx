@@ -2,7 +2,6 @@ import { StrictMode } from "react";
 import { createRoot } from "react-dom/client";
 import "./index.css";
 import App from "./App.jsx";
-import TestSpace from "./TestSpace.jsx";
 import { ResourceProvider } from "./ResourceContext.jsx";
 
 createRoot(document.getElementById("root")).render(
