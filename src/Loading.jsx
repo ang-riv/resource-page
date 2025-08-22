@@ -1,8 +1,6 @@
-import { useState } from "react";
 import { motion } from "motion/react";
 import { subIcons } from "./assets/imgs/icons";
 const Loading = () => {
-  const [stop, setStop] = useState(false);
   let dashes = [];
   for (let i = 0; i <= 10; i++) {
     dashes.push(
@@ -21,41 +19,32 @@ const Loading = () => {
       <div className="w-3/5 flex items-center">
         <motion.div
           className="w-52 h-10 bg-white absolute"
-          initial={{ clipPath: "inset(0 100% 0 0)" }} // fully hidden (from right)
-          animate={stop ? { clipPath: "inset(0 0% 0 0)" } : {}} // reveal fully
-          transition={
-            stop
-              ? {
-                  duration: 5,
-                  ease: "linear",
-                  delay: 0.5,
-                  repeat: Infinity,
+          initial={{ clipPath: "inset(0 100% 0 0)" }}
+          animate={{ clipPath: "inset(0 0% 0 0)" }}
+          transition={{
+            duration: 5,
+            ease: "linear",
+            delay: 0.5,
+            repeat: Infinity,
 
-                  repeatType: "loop",
-                }
-              : {}
-          }
+            repeatType: "loop",
+          }}
         />
         <motion.div
           className="absolute"
           initial={{ x: -40 }}
-          animate={stop ? { x: xPositions } : {}}
-          transition={
-            stop
-              ? {
-                  duration: 5,
-                  delay: 0.5,
-                  repeat: Infinity,
-                  repeatType: "loop",
-                }
-              : {}
-          }
+          animate={{ x: xPositions }}
+          transition={{
+            duration: 5,
+            delay: 0.5,
+            repeat: Infinity,
+            repeatType: "loop",
+          }}
         >
           {subIcons.sewing}
         </motion.div>
         {dashes.length != 0 && dashes.map((dash) => dash)}
       </div>
-      <button onClick={() => setStop(!stop)}>Stop</button>
     </>
   );
 };

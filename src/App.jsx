@@ -11,6 +11,8 @@ function App() {
   const catRange = "Categories!A:C";
   const resRange = "Resources!A:G";
 
+  const [loading, isLoading] = useState(true);
+
   const [mainCats, setMainCats] = useState([]);
   const [subCats, setSubCats] = useState([]);
   const [resources, setResources] = useState([]);
@@ -68,6 +70,7 @@ function App() {
         );
 
         setSubCats(filterTransposed);
+        isLoading(false);
       } catch (error) {
         console.error("Error fetching categories: ", error);
       }
@@ -108,8 +111,12 @@ function App() {
       subCatRef.current.scrollIntoView({ behavior: "smooth", block: "start" });
     }
     // fetch all res
-    fetchCats();
-    fetchRes();
+    const timer = setTimeout(() => {
+      fetchCats();
+      fetchRes();
+    }, 3000);
+
+    return () => clearTimeout(timer);
   }, [selectedMain, showRes]);
   // scrolling
   scrollToSection(mainCatRef, sectionSize);
@@ -164,7 +171,7 @@ function App() {
       let imgSrc;
       const thumbnail = res.thumbnail;
       const fileID = thumbnail.match(/\/d\/([^/]+)/)?.[1];
-      imgSrc = `https://drive.google.com/thumbnail?id=${fileID}&sz=w1000`;
+      imgSrc = `https://drive.google.com/thumbnail?id=${fileID}&sz=w600`;
       return (
         <motion.div
           key={index}
@@ -238,7 +245,7 @@ function App() {
             <iframe
               src={embedVid}
               className={`w-full ${infoCounter === 1 ? "h-10/10" : "h-5/10"}`}
-            ></iframe>{" "}
+            ></iframe>
           </>
         )}
       </div>
@@ -346,25 +353,32 @@ function App() {
                     <div
                       className={`${dashContainerStyles} min-h-[355px] py-9`}
                     >
-                      {/* <Loading /> */}
-                      <h2 className="text-[2.5em]">Categories</h2>
-                      <div className="flex flex-col min-w-[250px] min-h-[150px] justify-between mt-5.5">
-                        {mainCats.length != 0 &&
-                          mainCats.map((cat, index) => (
-                            <button
-                              key={cat}
-                              className={`${mainBtnColors[index]} font-bold h-fit py-2 flex justify-base items-center hover:text-white text-lg ${mainBtnHovers[index]} hover:cursor-pointer`}
-                              onClick={() => {
-                                setSelectedMain(cat);
-                                setSectionSize(true);
-                                setShowRes(false);
-                              }}
-                            >
-                              <div className="pl-1.5">{mainIcons[index]}</div>
-                              <p className="grow-1">{cat}</p>
-                            </button>
-                          ))}
-                      </div>
+                      {loading ? (
+                        <Loading />
+                      ) : (
+                        <>
+                          <h2 className="text-[2.5em]">Categories</h2>
+                          <div className="flex flex-col min-w-[250px] min-h-[150px] justify-between mt-5.5">
+                            {mainCats.length != 0 &&
+                              mainCats.map((cat, index) => (
+                                <button
+                                  key={cat}
+                                  className={`${mainBtnColors[index]} font-bold h-fit py-2 flex justify-base items-center hover:text-white text-lg ${mainBtnHovers[index]} hover:cursor-pointer`}
+                                  onClick={() => {
+                                    setSelectedMain(cat);
+                                    setSectionSize(true);
+                                    setShowRes(false);
+                                  }}
+                                >
+                                  <div className="pl-1.5">
+                                    {mainIcons[index]}
+                                  </div>
+                                  <p className="grow-1">{cat}</p>
+                                </button>
+                              ))}
+                          </div>
+                        </>
+                      )}
                     </div>
                   </motion.div>
                   {/* sub cats */}
