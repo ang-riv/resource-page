@@ -2,7 +2,7 @@ import { useState, useEffect, useRef, useContext } from "react";
 import { motion, AnimatePresence } from "motion/react";
 // cat = categories, res = resources
 import logo from "../src/assets/imgs/logo.png";
-import { BackToTopIcon } from "./assets/imgs/icons";
+import { BackToTopIcon } from "./assets/imgs/Icons";
 import Loading from "./Loading";
 import DisplaySubCats from "./components/DisplaySubCats";
 import ResourceInfo from "./components/ResourceInfo";

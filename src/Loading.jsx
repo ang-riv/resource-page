@@ -1,5 +1,5 @@
 import { motion } from "motion/react";
-import { subIcons } from "./assets/imgs/icons";
+import { subIcons } from "./assets/imgs/Icons";
 const Loading = () => {
   let dashes = [];
   for (let i = 0; i <= 10; i++) {
