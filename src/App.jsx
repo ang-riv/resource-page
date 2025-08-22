@@ -131,17 +131,14 @@ function App() {
     "min-w-[300px] bg-white h-fit p-2 [&:not(header)]:mt-5 shadow-[rgba(0,0,0,0.25)_3px_3px_6px,rgba(0,0,0,0.18)_6px_6px_12px]";
   const dashContainerStyles =
     "dash-border w-full h-full flex flex-col justify-center items-center py-5";
-  const mainBtnColors = [
-    "bg-accent-red/30",
-    "bg-accent-orange/30",
-    "bg-accent-green/30",
-  ];
-  const mainBtnHovers = [
-    "hover:bg-accent-red",
-    "hover:bg-accent-orange",
-    "hover:bg-accent-green",
-  ];
 
+  const mainBtnStyles = (index) => {
+    const mainColors = ["bg-accent-red", "bg-accent-orange", "bg-accent-green"];
+    const mainBtnColors = mainColors.map((color) => `${color}/30`);
+    const mainBtnHovers = mainColors.map((color) => `hover:${color}`);
+    const mainBtnActive = mainColors.map((color) => `active:${color}`);
+    return `${mainBtnColors[index]} ${mainBtnHovers[index]} ${mainBtnActive[index]}`;
+  };
   // fcns
   const displaySubs = () => {
     const subBtns = showSubs.slice(1).map((subCat, index) => {
@@ -150,7 +147,9 @@ function App() {
       return (
         <button
           key={subCat}
-          className={`h-28 ${mainBtnColors[index]} font-bold text-xl w-28 leading-6 ${mainBtnHovers[index]} hover:text-white hover:cursor-pointer flex flex-col justify-center items-center`}
+          className={`h-28  ${mainBtnStyles(
+            index
+          )} font-bold text-xl w-28 leading-6  active:text-white hover:text-white hover:cursor-pointer flex flex-col justify-center items-center`}
           onClick={() => {
             setSelectedSub(subCat);
             setShowRes(true);
@@ -178,7 +177,7 @@ function App() {
           whileHover={{ scale: 0.97 }}
           className="bg-white h-[350px] mt-5 shadow-[rgba(0,0,0,0.25)_3px_3px_6px,rgba(0,0,0,0.18)_6px_6px_12px] hover:cursor-pointer hover:outline-3 hover:outline-accent-yellow"
         >
-          <h3 className="bg-accent-yellow w-fit pl-3 pr-2 text-2xl absolute mt-4 shadow-sm shadow-gray-400">
+          <h3 className="bg-accent-yellow w-fit pl-3 pr-2 text-2xl absolute mt-4 shadow-sm shadow-gray-600">
             {res.title}
           </h3>
           <img
@@ -226,7 +225,7 @@ function App() {
     }
 
     return (
-      <div className="w-full h-full absolute bg-white py-2 flex flex-col md:px-3 max-w-7xl">
+      <div className="w-full h-full absolute bg-white py-2 flex flex-col md:px-3">
         <h4 className="w-full text-center font-bold text-3xl my-2 underline underline-offset-3">
           {currentRes.title}
         </h4>
@@ -268,7 +267,7 @@ function App() {
               initial={{ opacity: 0, scale: 0.5 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ duration: 0.5 }}
-              className="w-11/12 h-9/10 bg-white absolute"
+              className="w-11/12 h-9/10 bg-white absolute max-w-5xl"
             >
               <motion.button
                 whileHover={{ scale: 1.1 }}
@@ -363,7 +362,10 @@ function App() {
                               mainCats.map((cat, index) => (
                                 <button
                                   key={cat}
-                                  className={`${mainBtnColors[index]} font-bold h-fit py-2 flex justify-base items-center hover:text-white text-lg ${mainBtnHovers[index]} hover:cursor-pointer`}
+                                  className={`font-bold h-fit py-2 flex justify-base items-center 
+                                  active:text-white  hover:text-white text-lg hover:cursor-pointer ${mainBtnStyles(
+                                    index
+                                  )}`}
                                   onClick={() => {
                                     setSelectedMain(cat);
                                     setSectionSize(true);
