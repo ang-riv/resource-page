@@ -1,4 +1,4 @@
-import { mainIcons } from "../assets/imgs/Icons";
+import { mainIcons } from "./Icons";
 import { btnStyles } from "../utils/groupStyles";
 import { ResourceContext } from "../ResourceContext";
 import { useContext } from "react";
