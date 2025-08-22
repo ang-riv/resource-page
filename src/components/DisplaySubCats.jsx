@@ -19,7 +19,7 @@ const DisplaySubCats = () => {
         }}
       >
         <div className="py-1.5">{subIcons[iconString]}</div>
-        <p className="w-[100px]">{subCat}</p>
+        <p className="w-[6.25em]">{subCat}</p>
       </button>
     );
   });

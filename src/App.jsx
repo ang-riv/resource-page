@@ -156,6 +156,9 @@ function App() {
           },
         },
     restransition: { duration: 0.6 },
+    reminder: reminderHover
+      ? { scale: 1.6, rotate: [0, 15, -15, 15, 0] }
+      : { scale: 1 },
   };
   return (
     <>
@@ -171,27 +174,27 @@ function App() {
           </motion.button>
         }
         {/* header */}
-        <motion.div className="w-full h-fit bg-primary-green flex justify-start flex-col p-2 items-center min-[600px]:border-14 min-[600px]:border-gray-400 min-[600px]:py-4 max-w-5xl md:m-3">
+        <motion.div className="w-full h-fit bg-primary-green flex justify-start flex-col p-2 items-center min-[37.5em]:border-14 min-[37.5em]:border-gray-400 min-[37.5em]:py-4 max-w-5xl md:m-3">
           {/* content wrapper */}
           <motion.div className="w-fit" key="wrapper">
             <AnimatePresence mode="sync">
               <motion.header
                 key="header"
-                className={`${containerStyles} max-w-[650px]`}
+                className={`${containerStyles} max-w-[40.625em]`}
                 {...variants}
               >
                 <div className={`${dashContainerStyles} md:flex-row`}>
                   <img
                     src={logo}
                     alt=""
-                    className="w-[160px] h-[160px] md:w-[80px] md:h-[80px] md:mr-3"
+                    className="w-[10em] h-[10em] md:w-[5em] md:h-[5em] md:mr-3"
                   />
                   <h1 className="text-[2.7rem] text-center leading-10  mt-7">
                     Ms. Shane's <br className="md:hidden" /> Resource Page
                   </h1>
                 </div>
               </motion.header>
-              <motion.main key="main" className="w-full h-fit max-w-[650px]">
+              <motion.main key="main" className="w-full h-fit max-w-[40.625em]">
                 {/* reminder */}
                 <motion.div
                   className={containerStyles}
@@ -209,11 +212,8 @@ function App() {
                       </p>
                       <motion.p
                         className="ml-1"
-                        animate={
-                          reminderHover
-                            ? { scale: 1.6, rotate: [0, 15, -15, 15, 0] }
-                            : { scale: 1 }
-                        }
+                        variants={variants}
+                        animate="reminder"
                         transition={{ duration: 0.6 }}
                       >
                         😁
@@ -225,11 +225,11 @@ function App() {
                 {/* cat wrapper */}
                 <div className="md:flex md:flex-row md:justify-center md:gap-x-5">
                   <motion.div
-                    className={`${containerStyles} min-h-[371px]`}
+                    className={`${containerStyles} min-h-[23.188em]`}
                     {...variants}
                   >
                     <div
-                      className={`${dashContainerStyles} min-h-[355px] py-9`}
+                      className={`${dashContainerStyles} min-h-[22.188em] py-9`}
                     >
                       {loading ? (
                         <Loading />
@@ -251,7 +251,7 @@ function App() {
                       {selectedMain != "" ? (
                         <>
                           <h2 className="text-[2.5em]">{selectedMain}</h2>
-                          <div className="w-[250px] mt-5 gap-3 flex justify-center flex-wrap">
+                          <div className="w-[15.625em] mt-5 gap-3 flex justify-center flex-wrap">
                             <DisplaySubCats />
                           </div>
                         </>

@@ -7,7 +7,7 @@ const DisplayMainCats = ({ mainCats, setSectionSize }) => {
   return (
     <>
       <h2 className="text-[2.5em]">Categories</h2>
-      <div className="flex flex-col min-w-[250px] min-h-[150px] justify-between mt-5.5">
+      <div className="flex flex-col min-w-[15.625em] min-h-[9.375em] justify-between mt-5.5">
         {mainCats.length != 0 &&
           mainCats.map((cat, index) => (
             <button
