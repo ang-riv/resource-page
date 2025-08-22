@@ -5,6 +5,7 @@ import logo from "../src/assets/imgs/logo.png";
 import { mainIcons, subIcons, BackToTopIcon } from "./assets/imgs/icons";
 import Loading from "./Loading";
 import DisplaySubCats from "./components/DisplaySubCats";
+import ResourceInfo from "./components/ResourceInfo";
 function App() {
   // google sheets api info
   const apiKey = import.meta.env.VITE_API_KEY;
@@ -249,26 +250,11 @@ function App() {
   return (
     <>
       {openRes != "" && (
-        <>
-          <div className="fixed h-full w-full z-10 flex justify-center items-center">
-            <div className="fixed bg-black opacity-30 h-full w-full"></div>
-            <motion.div
-              initial={{ opacity: 0, scale: 0.5 }}
-              animate={{ opacity: 1, scale: 1 }}
-              transition={{ duration: 0.5 }}
-              className="w-11/12 h-9/10 bg-white absolute max-w-5xl"
-            >
-              <motion.button
-                whileHover={{ scale: 1.1 }}
-                className="h-9 w-9 m-2 rounded-full fixed bg-black/30 z-20 font-bold hover:cursor-pointer hover:bg-accent-red hover:text-white"
-                onClick={() => setOpenRes("")}
-              >
-                X
-              </motion.button>
-              {showResInfo()}
-            </motion.div>
-          </div>
-        </>
+        <ResourceInfo
+          openRes={openRes}
+          setOpenRes={setOpenRes}
+          resources={resources}
+        />
       )}
       <div className="min-h-screen bg-beige flex items-center justify-center lg:p-5">
         {
