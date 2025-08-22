@@ -131,12 +131,22 @@ function App() {
     "min-w-[300px] bg-white h-fit p-2 [&:not(header)]:mt-5 shadow-[rgba(0,0,0,0.25)_3px_3px_6px,rgba(0,0,0,0.18)_6px_6px_12px]";
   const dashContainerStyles =
     "dash-border w-full h-full flex flex-col justify-center items-center py-5";
-
+  const mainBtnColors = [
+    "bg-accent-red/30",
+    "bg-accent-orange/30",
+    "bg-accent-green/30",
+  ];
+  const mainBtnHovers = [
+    "hover:bg-accent-red",
+    "hover:bg-accent-orange",
+    "hover:bg-accent-green",
+  ];
+  const mainBtnActive = [
+    "active:bg-accent-red",
+    "active:bg-accent-orange",
+    "active:bg-accent-green",
+  ];
   const mainBtnStyles = (index) => {
-    const mainColors = ["bg-accent-red", "bg-accent-orange", "bg-accent-green"];
-    const mainBtnColors = mainColors.map((color) => `${color}/30`);
-    const mainBtnHovers = mainColors.map((color) => `hover:${color}`);
-    const mainBtnActive = mainColors.map((color) => `active:${color}`);
     return `${mainBtnColors[index]} ${mainBtnHovers[index]} ${mainBtnActive[index]}`;
   };
   // fcns
