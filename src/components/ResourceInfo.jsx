@@ -1,5 +1,8 @@
 import { motion } from "motion/react";
-const ResourceInfo = ({ openRes, setOpenRes, resources }) => {
+import { ResourceContext } from "../ResourceContext";
+import { useContext } from "react";
+const ResourceInfo = ({ resources }) => {
+  const { openRes, setOpenRes } = useContext(ResourceContext);
   const showResInfo = () => {
     const resIndex = resources.findIndex((res) => res.title === openRes);
     const currentRes = resources[resIndex];

@@ -1,6 +1,9 @@
 import { subIcons } from "../assets/imgs/icons";
 import { btnStyles } from "../utils/groupStyles";
-const DisplaySubCats = ({ showSubs, setSelectedSub, setShowRes }) => {
+import { ResourceContext } from "../ResourceContext";
+import { useContext } from "react";
+const DisplaySubCats = ({ showSubs, setSelectedSub }) => {
+  const { setShowRes } = useContext(ResourceContext);
   const subBtns = showSubs.slice(1).map((subCat, index) => {
     const icon = subCat.replace(/\d+/g, "ten").toLowerCase();
     const iconString = icon.split(" ")[0];

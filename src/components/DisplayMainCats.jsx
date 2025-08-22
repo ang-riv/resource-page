@@ -1,11 +1,9 @@
 import { mainIcons } from "../assets/imgs/icons";
 import { btnStyles } from "../utils/groupStyles";
-const DisplayMainCats = ({
-  mainCats,
-  setSelectedMain,
-  setSectionSize,
-  setShowRes,
-}) => {
+import { ResourceContext } from "../ResourceContext";
+import { useContext } from "react";
+const DisplayMainCats = ({ mainCats, setSectionSize }) => {
+  const { setSelectedMain, setShowRes } = useContext(ResourceContext);
   return (
     <>
       <h2 className="text-[2.5em]">Categories</h2>

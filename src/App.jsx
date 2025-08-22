@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useContext } from "react";
 import { motion, AnimatePresence } from "motion/react";
 // cat = categories, res = resources
 import logo from "../src/assets/imgs/logo.png";
@@ -9,6 +9,7 @@ import ResourceInfo from "./components/ResourceInfo";
 import ShowResources from "./components/ShowResources";
 import DisplayMainCats from "./components/DisplayMainCats";
 import { containerStyles, dashContainerStyles } from "./utils/groupStyles";
+import { ResourceContext } from "./ResourceContext";
 function App() {
   // google sheets api info
   const apiKey = import.meta.env.VITE_API_KEY;
@@ -16,20 +17,20 @@ function App() {
   const catRange = "Categories!A:C";
   const resRange = "Resources!A:G";
 
+  // context
+  const { selectedMain, showRes, openRes, setOpenRes } =
+    useContext(ResourceContext);
   const [loading, isLoading] = useState(true);
 
   const [mainCats, setMainCats] = useState([]);
   const [subCats, setSubCats] = useState([]);
   const [resources, setResources] = useState([]);
 
-  const [selectedMain, setSelectedMain] = useState("");
   const [showSubs, setShowSubs] = useState([]);
   const [selectedSub, setSelectedSub] = useState("");
-  const [openRes, setOpenRes] = useState("");
 
   // scrolling
   const [sectionSize, setSectionSize] = useState(false);
-  const [showRes, setShowRes] = useState(false);
 
   const mainCatRef = useRef(null);
   const subCatRef = useRef(null);
@@ -136,7 +137,7 @@ function App() {
     animate: { opacity: 1, y: 0 },
     exit: { opacity: 0, y: 15 },
     transition: { delay: 0.3, duration: 0.7 },
-    resAnimate: showRes
+    resanimate: showRes
       ? {
           scaleY: 1,
           height: "auto",
@@ -152,17 +153,11 @@ function App() {
             height: { delay: 0.3, duration: 0.6 },
           },
         },
-    resTransition: { duration: 0.6 },
+    restransition: { duration: 0.6 },
   };
   return (
     <>
-      {openRes != "" && (
-        <ResourceInfo
-          openRes={openRes}
-          setOpenRes={setOpenRes}
-          resources={resources}
-        />
-      )}
+      {openRes != "" && <ResourceInfo resources={resources} />}
       <div className="min-h-screen bg-beige flex items-center justify-center lg:p-5">
         {
           <motion.button
@@ -239,9 +234,7 @@ function App() {
                       ) : (
                         <DisplayMainCats
                           mainCats={mainCats}
-                          setSelectedMain={setSelectedMain}
                           setSectionSize={setSectionSize}
-                          setShowRes={setShowRes}
                         />
                       )}
                     </div>
@@ -260,7 +253,6 @@ function App() {
                             <DisplaySubCats
                               showSubs={showSubs}
                               setSelectedSub={setSelectedSub}
-                              setShowRes={setShowRes}
                             />
                           </div>
                         </>
@@ -278,13 +270,12 @@ function App() {
                   className="md:grid md:grid-cols-2 md:gap-x-5"
                   style={{ overflow: "hidden" }}
                   variants={variants}
-                  animate="resAnimate"
-                  transition="resTransition"
+                  animate="resanimate"
+                  transition="restransition"
                 >
                   <ShowResources
                     selectedSub={selectedSub}
                     resources={resources}
-                    setOpenRes={setOpenRes}
                   />
                 </motion.div>
               </motion.main>
