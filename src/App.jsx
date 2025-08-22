@@ -226,7 +226,7 @@ function App() {
     }
 
     return (
-      <div className="w-full h-full absolute bg-white py-2 flex flex-col md:px-3">
+      <div className="w-full h-full absolute bg-white py-2 flex flex-col md:px-3 max-w-7xl">
         <h4 className="w-full text-center font-bold text-3xl my-2 underline underline-offset-3">
           {currentRes.title}
         </h4>
