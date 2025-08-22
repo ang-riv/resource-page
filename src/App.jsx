@@ -2,11 +2,13 @@ import { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "motion/react";
 // cat = categories, res = resources
 import logo from "../src/assets/imgs/logo.png";
-import { mainIcons, subIcons, BackToTopIcon } from "./assets/imgs/icons";
+import { BackToTopIcon } from "./assets/imgs/icons";
 import Loading from "./Loading";
 import DisplaySubCats from "./components/DisplaySubCats";
 import ResourceInfo from "./components/ResourceInfo";
 import ShowResources from "./components/ShowResources";
+import DisplayMainCats from "./components/DisplayMainCats";
+import { containerStyles, dashContainerStyles } from "./utils/groupStyles";
 function App() {
   // google sheets api info
   const apiKey = import.meta.env.VITE_API_KEY;
@@ -129,37 +131,28 @@ function App() {
       behavior: "smooth",
     });
   };
-  // styles
-  const containerStyles =
-    "min-w-[300px] bg-white h-fit p-2 [&:not(header)]:mt-5 shadow-[rgba(0,0,0,0.25)_3px_3px_6px,rgba(0,0,0,0.18)_6px_6px_12px]";
-  const dashContainerStyles =
-    "dash-border w-full h-full flex flex-col justify-center items-center py-5";
-  const mainBtnColors = [
-    "bg-accent-red/30",
-    "bg-accent-orange/30",
-    "bg-accent-green/30",
-  ];
-  const mainBtnHovers = [
-    "hover:bg-accent-red",
-    "hover:bg-accent-orange",
-    "hover:bg-accent-green",
-  ];
-  const mainBtnActive = [
-    "active:bg-accent-red",
-    "active:bg-accent-orange",
-    "active:bg-accent-green",
-  ];
-  const mainBtnStyles = (index) => {
-    return `${mainBtnColors[index]} ${mainBtnHovers[index]} ${mainBtnActive[index]}`;
-  };
-
-  // fcns
-
   const variants = {
     initial: { opacity: 0, y: 15 },
     animate: { opacity: 1, y: 0 },
     exit: { opacity: 0, y: 15 },
     transition: { delay: 0.3, duration: 0.7 },
+    resAnimate: showRes
+      ? {
+          scaleY: 1,
+          height: "auto",
+          opacity: 1,
+          transition: { opacity: { delay: 0.3 } },
+        }
+      : {
+          scaleY: 0,
+          height: "0px",
+          opacity: 0,
+          transition: {
+            scaleY: { delay: 0.3, duration: 0.6 },
+            height: { delay: 0.3, duration: 0.6 },
+          },
+        },
+    resTransition: { duration: 0.6 },
   };
   return (
     <>
@@ -244,31 +237,12 @@ function App() {
                       {loading ? (
                         <Loading />
                       ) : (
-                        <>
-                          <h2 className="text-[2.5em]">Categories</h2>
-                          <div className="flex flex-col min-w-[250px] min-h-[150px] justify-between mt-5.5">
-                            {mainCats.length != 0 &&
-                              mainCats.map((cat, index) => (
-                                <button
-                                  key={cat}
-                                  className={`font-bold h-fit py-2 flex justify-base items-center 
-                                  active:text-white  hover:text-white text-lg hover:cursor-pointer ${mainBtnStyles(
-                                    index
-                                  )}`}
-                                  onClick={() => {
-                                    setSelectedMain(cat);
-                                    setSectionSize(true);
-                                    setShowRes(false);
-                                  }}
-                                >
-                                  <div className="pl-1.5">
-                                    {mainIcons[index]}
-                                  </div>
-                                  <p className="grow-1">{cat}</p>
-                                </button>
-                              ))}
-                          </div>
-                        </>
+                        <DisplayMainCats
+                          mainCats={mainCats}
+                          setSelectedMain={setSelectedMain}
+                          setSectionSize={setSectionSize}
+                          setShowRes={setShowRes}
+                        />
                       )}
                     </div>
                   </motion.div>
@@ -285,7 +259,6 @@ function App() {
                           <div className="w-[250px] mt-5 gap-3 flex justify-center flex-wrap">
                             <DisplaySubCats
                               showSubs={showSubs}
-                              mainBtnStyles={mainBtnStyles}
                               setSelectedSub={setSelectedSub}
                               setShowRes={setShowRes}
                             />
@@ -304,27 +277,9 @@ function App() {
                   key="resourceSection"
                   className="md:grid md:grid-cols-2 md:gap-x-5"
                   style={{ overflow: "hidden" }}
-                  animate={
-                    showRes
-                      ? {
-                          scaleY: 1,
-                          height: "auto",
-                          opacity: 1,
-                          transition: { opacity: { delay: 0.3 } },
-                        }
-                      : {
-                          scaleY: 0,
-                          height: "0px",
-                          opacity: 0,
-                          transition: {
-                            scaleY: { delay: 0.3, duration: 0.6 },
-                            height: { delay: 0.3, duration: 0.6 },
-                          },
-                        }
-                  }
-                  transition={{
-                    duration: 0.6,
-                  }}
+                  variants={variants}
+                  animate="resAnimate"
+                  transition="resTransition"
                 >
                   <ShowResources
                     selectedSub={selectedSub}
