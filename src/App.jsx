@@ -4,6 +4,7 @@ import { motion, AnimatePresence } from "motion/react";
 import logo from "../src/assets/imgs/logo.png";
 import { mainIcons, subIcons, BackToTopIcon } from "./assets/imgs/icons";
 import Loading from "./Loading";
+import DisplaySubCats from "./components/DisplaySubCats";
 function App() {
   // google sheets api info
   const apiKey = import.meta.env.VITE_API_KEY;
@@ -149,30 +150,8 @@ function App() {
   const mainBtnStyles = (index) => {
     return `${mainBtnColors[index]} ${mainBtnHovers[index]} ${mainBtnActive[index]}`;
   };
-  // fcns
-  const displaySubs = () => {
-    const subBtns = showSubs.slice(1).map((subCat, index) => {
-      const icon = subCat.replace(/\d+/g, "ten").toLowerCase();
-      const iconString = icon.split(" ")[0];
-      return (
-        <button
-          key={subCat}
-          className={`h-28  ${mainBtnStyles(
-            index
-          )} font-bold text-xl w-28 leading-6  active:text-white hover:text-white hover:cursor-pointer flex flex-col justify-center items-center`}
-          onClick={() => {
-            setSelectedSub(subCat);
-            setShowRes(true);
-          }}
-        >
-          <div className="py-1.5">{subIcons[iconString]}</div>
-          <p className="w-[100px]">{subCat}</p>
-        </button>
-      );
-    });
-    return subBtns;
-  };
 
+  // fcns
   const showResources = () => {
     const selectedRes = resources.filter((res) => res.subCat === selectedSub);
     const showRes = selectedRes.map((res, index) => {
@@ -404,7 +383,12 @@ function App() {
                         <>
                           <h2 className="text-[2.5em]">{selectedMain}</h2>
                           <div className="w-[250px] mt-5 gap-3 flex justify-center flex-wrap">
-                            {displaySubs()}
+                            <DisplaySubCats
+                              showSubs={showSubs}
+                              mainBtnStyles={mainBtnStyles}
+                              setSelectedSub={setSelectedSub}
+                              setShowRes={setShowRes}
+                            />
                           </div>
                         </>
                       ) : (
