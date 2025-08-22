@@ -1,8 +1,8 @@
 import { motion } from "motion/react";
 import { ResourceContext } from "../ResourceContext";
 import { useContext } from "react";
-const ShowResources = ({ selectedSub, resources }) => {
-  const { setOpenRes } = useContext(ResourceContext);
+const ShowResources = ({ selectedSub }) => {
+  const { setOpenRes, resources } = useContext(ResourceContext);
   const selectedRes = resources.filter((res) => res.subCat === selectedSub);
   const showRes = selectedRes.map((res, index) => {
     // making the thumbnail

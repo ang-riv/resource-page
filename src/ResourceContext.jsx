@@ -2,17 +2,21 @@ import { createContext, useState } from "react";
 // provider
 export const ResourceContext = createContext();
 export const ResourceProvider = ({ children }) => {
-  const [tester, setTester] = useState("Working");
+  const [resources, setResources] = useState([]);
+
+  // main cats
   const [selectedMain, setSelectedMain] = useState("");
-  const [showRes, setShowRes] = useState(false);
+
+  // sub cats
   const [showSubs, setShowSubs] = useState([]);
   const [selectedSub, setSelectedSub] = useState("");
+
+  // individual resources
   const [openRes, setOpenRes] = useState("");
+  const [showRes, setShowRes] = useState(false);
   return (
     <ResourceContext.Provider
       value={{
-        tester,
-        setTester,
         selectedMain,
         setSelectedMain,
         showRes,
@@ -23,6 +27,8 @@ export const ResourceProvider = ({ children }) => {
         setSelectedSub,
         openRes,
         setOpenRes,
+        resources,
+        setResources,
       }}
     >
       {children}

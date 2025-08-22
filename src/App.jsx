@@ -18,16 +18,18 @@ function App() {
   const resRange = "Resources!A:G";
 
   // context
-  const { selectedMain, showRes, openRes, setOpenRes } =
-    useContext(ResourceContext);
+  const {
+    selectedMain,
+    showRes,
+    openRes,
+    setResources,
+    setShowSubs,
+    selectedSub,
+  } = useContext(ResourceContext);
   const [loading, isLoading] = useState(true);
 
   const [mainCats, setMainCats] = useState([]);
   const [subCats, setSubCats] = useState([]);
-  const [resources, setResources] = useState([]);
-
-  const [showSubs, setShowSubs] = useState([]);
-  const [selectedSub, setSelectedSub] = useState("");
 
   // scrolling
   const [sectionSize, setSectionSize] = useState(false);
@@ -157,7 +159,7 @@ function App() {
   };
   return (
     <>
-      {openRes != "" && <ResourceInfo resources={resources} />}
+      {openRes != "" && <ResourceInfo />}
       <div className="min-h-screen bg-beige flex items-center justify-center lg:p-5">
         {
           <motion.button
@@ -250,10 +252,7 @@ function App() {
                         <>
                           <h2 className="text-[2.5em]">{selectedMain}</h2>
                           <div className="w-[250px] mt-5 gap-3 flex justify-center flex-wrap">
-                            <DisplaySubCats
-                              showSubs={showSubs}
-                              setSelectedSub={setSelectedSub}
-                            />
+                            <DisplaySubCats />
                           </div>
                         </>
                       ) : (
@@ -273,10 +272,7 @@ function App() {
                   animate="resanimate"
                   transition="restransition"
                 >
-                  <ShowResources
-                    selectedSub={selectedSub}
-                    resources={resources}
-                  />
+                  <ShowResources selectedSub={selectedSub} />
                 </motion.div>
               </motion.main>
             </AnimatePresence>
