@@ -81,7 +81,7 @@ const ResourceInfo = () => {
         <motion.button
           variants={variants}
           whileHover="hover"
-          className="h-9 w-9 m-2 rounded-full fixed bg-black/30 z-20 font-bold hover:cursor-pointer hover:bg-accent-red hover:text-white active:bg-accent-red active:text-white"
+          className="h-9 w-9 m-2 rounded-full fixed bg-black/30 z-20 font-bold hover:cursor-pointer hover:bg-accent-red hover:text-white"
           onClick={() => setOpenRes("")}
         >
           X
