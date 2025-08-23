@@ -15,7 +15,7 @@ function App() {
   const apiKey = import.meta.env.VITE_API_KEY;
   const sheetID = import.meta.env.VITE_SHEET_ID;
   const catRange = "Categories!A:C";
-  const resRange = "Resources!A:G";
+  const resRange = "Resources!A:F";
 
   // context
   const {
@@ -93,14 +93,13 @@ function App() {
         // remove headers
         const excludeHeaders = result.values.slice(2);
         const resObj = excludeHeaders.map(
-          ([mainCat, subCat, thumbnail, title, video, pdf, videos]) => ({
+          ([mainCat, subCat, thumbnail, title, video, pdf]) => ({
             mainCat,
             subCat,
             thumbnail,
             title,
             video,
             pdf,
-            videos,
           })
         );
         setResources(resObj || {});
