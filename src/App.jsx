@@ -8,7 +8,11 @@ import DisplaySubCats from "./components/DisplaySubCats";
 import ResourceInfo from "./components/ResourceInfo";
 import ShowResources from "./components/ShowResources";
 import DisplayMainCats from "./components/DisplayMainCats";
-import { containerStyles, dashContainerStyles } from "./utils/groupStyles";
+import {
+  catContainerStyles,
+  containerStyles,
+  dashContainerStyles,
+} from "./utils/groupStyles";
 import { ResourceContext } from "./ResourceContext";
 function App() {
   // google sheets api info
@@ -231,7 +235,7 @@ function App() {
                 {/* cat wrapper */}
                 <div className="md:flex md:flex-row md:justify-center md:gap-x-5">
                   <motion.div
-                    className={`${containerStyles} min-h-[23.188em]`}
+                    className={`${catContainerStyles} min-h-[23.188em]`}
                     {...variants}
                   >
                     <div
@@ -249,7 +253,7 @@ function App() {
                   </motion.div>
                   {/* sub cats */}
                   <motion.div
-                    className={containerStyles}
+                    className={catContainerStyles}
                     ref={subCatRef}
                     {...variants}
                   >

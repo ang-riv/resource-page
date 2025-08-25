@@ -1,6 +1,8 @@
 // container styles
 export const containerStyles =
-  "min-w-[18.75em] bg-white h-fit p-2 [&:not(header)]:mt-5 shadow-[rgba(0,0,0,0.25)_3px_3px_6px,rgba(0,0,0,0.18)_6px_6px_12px]";
+  "bg-white h-fit p-2 [&:not(header)]:mt-5 shadow-[rgba(0,0,0,0.25)_3px_3px_6px,rgba(0,0,0,0.18)_6px_6px_12px]";
+export const catContainerStyles =
+  "min-w-[19.5em] bg-white h-fit p-2 [&:not(header)]:mt-5 shadow-[rgba(0,0,0,0.25)_3px_3px_6px,rgba(0,0,0,0.18)_6px_6px_12px]";
 export const dashContainerStyles =
   "dash-border w-full h-full flex flex-col justify-center items-center py-5";
 
