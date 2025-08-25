@@ -1,6 +1,6 @@
+// cat = categories, res = resources
 import { useState, useEffect, useRef, useContext } from "react";
 import { motion, AnimatePresence } from "motion/react";
-// cat = categories, res = resources
 import logo from "../src/assets/imgs/logo.png";
 import { BackToTopIcon } from "./components/Icons";
 import Loading from "./components/Loading";
@@ -21,7 +21,6 @@ function App() {
   const catRange = "Categories!A:C";
   const resRange = "Resources!A:F";
 
-  // context
   const {
     selectedMain,
     showRes,
@@ -30,18 +29,18 @@ function App() {
     setShowSubs,
     selectedSub,
   } = useContext(ResourceContext);
+
   const [loading, isLoading] = useState(true);
 
   const [mainCats, setMainCats] = useState([]);
   const [subCats, setSubCats] = useState([]);
+  const [reminderHover, setReminderHover] = useState(false);
 
   // scrolling
   const [sectionSize, setSectionSize] = useState(false);
 
   const mainCatRef = useRef(null);
   const subCatRef = useRef(null);
-
-  const [reminderHover, setReminderHover] = useState(false);
 
   const scrollToSection = (ref, section) => {
     useEffect(() => {
@@ -58,7 +57,6 @@ function App() {
   };
 
   useEffect(() => {
-    // fetch cats + sub cats
     const fetchCats = async () => {
       try {
         const response = await fetch(
@@ -76,7 +74,6 @@ function App() {
           excludeTitle.map((row) => row[colIndex] || "")
         );
 
-        // filter out all empty spots
         const filterTransposed = transposed.map((outerArr) =>
           outerArr.filter((innerArr) => innerArr != "")
         );
@@ -121,19 +118,21 @@ function App() {
     if (subCatRef.current) {
       subCatRef.current.scrollIntoView({ behavior: "smooth", block: "start" });
     }
+
     // fetch all res
     const timer = setTimeout(() => {
       fetchCats();
       fetchRes();
     }, 3000);
 
-    // focus trap
+    // for focus trap
     if (openRes != "") {
       console.log("res open");
     }
 
     return () => clearTimeout(timer);
   }, [selectedMain, showRes, openRes]);
+
   // scrolling
   scrollToSection(mainCatRef, sectionSize);
   const scrollToTop = () => {
@@ -142,6 +141,8 @@ function App() {
       behavior: "smooth",
     });
   };
+
+  // animations
   const variants = {
     initial: { opacity: 0, y: 15 },
     animate: { opacity: 1, y: 0 },
@@ -225,6 +226,7 @@ function App() {
                         variants={variants}
                         animate="reminder"
                         transition={{ duration: 0.6 }}
+                        alt="smiley face"
                       >
                         😁
                       </motion.p>

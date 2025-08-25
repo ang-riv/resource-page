@@ -17,6 +17,7 @@ const Loading = () => {
     <>
       <h4 className="text-4xl mb-3">Loading</h4>
       <div className="w-3/5 flex items-center">
+        {/* to make the lines look like they are disappearing */}
         <motion.div
           className="w-52 h-10 bg-white absolute"
           initial={{ clipPath: "inset(0 100% 0 0)" }}
@@ -40,6 +41,7 @@ const Loading = () => {
             repeat: Infinity,
             repeatType: "loop",
           }}
+          aria-hidden="true"
         >
           {subIcons.sewing}
         </motion.div>
