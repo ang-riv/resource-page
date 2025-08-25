@@ -3,7 +3,7 @@ import { motion, AnimatePresence } from "motion/react";
 // cat = categories, res = resources
 import logo from "../src/assets/imgs/logo.png";
 import { BackToTopIcon } from "./components/Icons";
-import Loading from "./Loading";
+import Loading from "./components/Loading";
 import DisplaySubCats from "./components/DisplaySubCats";
 import ResourceInfo from "./components/ResourceInfo";
 import ShowResources from "./components/ShowResources";
@@ -13,7 +13,7 @@ import {
   containerStyles,
   dashContainerStyles,
 } from "./utils/groupStyles";
-import { ResourceContext } from "./ResourceContext";
+import { ResourceContext } from "./components/ResourceContext";
 function App() {
   // google sheets api info
   const apiKey = import.meta.env.VITE_API_KEY;

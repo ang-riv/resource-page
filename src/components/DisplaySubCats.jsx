@@ -1,6 +1,6 @@
 import { subIcons } from "./Icons";
 import { btnStyles } from "../utils/groupStyles";
-import { ResourceContext } from "../ResourceContext";
+import { ResourceContext } from "./ResourceContext";
 import { useContext } from "react";
 const DisplaySubCats = () => {
   const { setShowRes, showSubs, setSelectedSub } = useContext(ResourceContext);

@@ -1,5 +1,5 @@
 import { motion } from "motion/react";
-import { ResourceContext } from "../ResourceContext";
+import { ResourceContext } from "./ResourceContext";
 import { useContext } from "react";
 const ShowResources = ({ selectedSub }) => {
   const { setOpenRes, resources } = useContext(ResourceContext);

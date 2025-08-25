@@ -1,6 +1,6 @@
 import { mainIcons } from "./Icons";
 import { btnStyles } from "../utils/groupStyles";
-import { ResourceContext } from "../ResourceContext";
+import { ResourceContext } from "./ResourceContext";
 import { useContext } from "react";
 const DisplayMainCats = ({ mainCats, setSectionSize }) => {
   const { setSelectedMain, setShowRes } = useContext(ResourceContext);
