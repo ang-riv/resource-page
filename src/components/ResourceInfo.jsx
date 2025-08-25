@@ -26,14 +26,9 @@ const ResourceInfo = () => {
         );
         embedVid = `https://www.youtube.com/embed/${vidMatch?.[1]}`;
       } else {
-        const vidMatch = currentRes.video.match(/\/d\/([^/]+)/);
-        if (vidMatch) {
-          const fileID = vidMatch[1];
-          embedVid = `https://drive.google.com/file/d/${fileID}/preview`;
-        } else {
-          console.log("could not extract file ID");
-        }
+        console.log("could not extract file ID");
       }
+
       infoCounter++;
     }
 
