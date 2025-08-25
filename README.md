@@ -10,8 +10,8 @@ A React website created for a teacher that holds a few resources for their stude
   - [motion](https://motion.dev/docs/react)
   - [focus trap react](https://github.com/focus-trap/focus-trap-react)
 
-![Desktop View](./src/assets/desktop-view.png)
-![Mobile View](./src/assets/mobile-view.png)
+![Desktop View](./src/assets/imgs/desktop-view.png)
+![Mobile View](./src/assets/imgs/mobile-view.png)
 
 ### Deployment
 
