@@ -1,6 +1,7 @@
 import { motion } from "motion/react";
 import { ResourceContext } from "../ResourceContext";
 import { useContext } from "react";
+import { FocusTrap } from "focus-trap-react";
 const ResourceInfo = () => {
   const { openRes, setOpenRes, resources } = useContext(ResourceContext);
   const showResInfo = () => {
@@ -56,6 +57,7 @@ const ResourceInfo = () => {
             <iframe
               src={embedPDF}
               className={`w-full ${infoCounter === 1 ? "h-10/10" : "h-5/10"}`}
+              tabIndex={-1}
             ></iframe>
           </>
         )}
@@ -73,6 +75,7 @@ const ResourceInfo = () => {
             </div>
             <iframe
               src={embedVid}
+              tabIndex={-1}
               className={`w-full ${infoCounter === 1 ? "h-10/10" : "h-5/10"}`}
             ></iframe>
           </>
@@ -87,26 +90,28 @@ const ResourceInfo = () => {
     hover: { scale: 1.1 },
   };
   return (
-    <div className="fixed h-full w-full z-10 flex justify-center items-center">
-      <div className="fixed bg-black opacity-30 h-full w-full"></div>
-      <motion.div
-        variants={variants}
-        initial="initial"
-        animate="animate"
-        transition="transition"
-        className="w-11/12 h-9/10 bg-white absolute max-w-5xl"
-      >
-        <motion.button
+    <FocusTrap>
+      <div className="fixed h-full w-full z-10 flex justify-center items-center">
+        <div className="fixed bg-black opacity-30 h-full w-full"></div>
+        <motion.div
           variants={variants}
-          whileHover="hover"
-          className="h-9 w-9 m-2 rounded-full fixed bg-black/30 z-20 font-bold hover:cursor-pointer hover:bg-accent-red hover:text-white"
-          onClick={() => setOpenRes("")}
+          initial="initial"
+          animate="animate"
+          transition="transition"
+          className="w-11/12 h-9/10 bg-white absolute max-w-5xl"
         >
-          X
-        </motion.button>
-        {showResInfo()}
-      </motion.div>
-    </div>
+          <motion.button
+            variants={variants}
+            whileHover="hover"
+            className="h-9 w-9 m-2 rounded-full fixed bg-black/30 z-20 font-bold hover:cursor-pointer hover:bg-accent-red hover:text-white"
+            onClick={() => setOpenRes("")}
+          >
+            X
+          </motion.button>
+          {showResInfo()}
+        </motion.div>
+      </div>
+    </FocusTrap>
   );
 };
 
