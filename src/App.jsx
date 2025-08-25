@@ -288,7 +288,7 @@ function App() {
             </AnimatePresence>
           </motion.div>
         </motion.div>
-        <footer className=" w-full flex justify-center flex-col items-center text-sm">
+        <footer className=" w-full flex justify-center flex-col items-center text-sm text-center">
           <p className="font-bold">Attributions</p>
           <a
             href="https://www.flaticon.com/free-icons/sewing"

@@ -11,6 +11,7 @@ A React website created for a teacher that holds a few resources for their stude
   - [focus trap react](https://github.com/focus-trap/focus-trap-react)
 
 ![Desktop View](./src/assets/desktop-view.png)
+![Mobile View](./src/assets/mobile-view.png)
 
 ### Deployment
 
@@ -30,8 +31,8 @@ Resource Page is a website created with the intention of getting students to fin
 
 - **Problem**: How to display and access PDFs.
   - **Solution**: The PDFs have to be somewhere for it to be accessed. Moved PDFs to a separate Google Drive and put the links to them into the Google Sheet for the website to access. Permission on the PDF itself and the Google Drive must be set to 'Anyone with a link' or it won't show up.
-- **Problem**: Direct links from the YouTube video and Google Drive PDF files weren't working
-  - **Solution**: They had to be a specific link style to be able to be used (https://drive.google.com/file/d/${pdfMatch}/preview or https://www.youtube.com/embed/${vidMatch?.[1]}). Since the ID of the files were the only things that changed, used match to get the ID and add it into the working link.
+- **Problem**: Direct links from the YouTube video and Google Drive PDF files weren't working.
+  - **Solution**: They had to be a specific link style to be able to be used (https://drive.google.com/file/d/${pdfMatch}/preview or https://www.youtube.com/embed/${vidMatch?.[1]}). Since the ID of the files were the only things that changed, used match to get the ID from the old link and add it into the working link.
     ```
     const pdfMatch = currentRes.pdf.match(/\/d\/([^/]+)/)[1];
     embedPDF = `https://drive.google.com/file/d/${pdfMatch}/preview`;
