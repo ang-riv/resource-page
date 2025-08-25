@@ -19,7 +19,6 @@ const ResourceInfo = () => {
     }
     // video
     if (currentRes.video != undefined && currentRes.video != "") {
-      // if it's a youtube vid or a google vid
       if (currentRes.video.includes("you")) {
         const vidMatch = currentRes.video.match(
           /(?:youtube\.com\/.*v=|youtu\.be\/)([^&?/]+)/
