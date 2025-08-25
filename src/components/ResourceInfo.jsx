@@ -43,7 +43,16 @@ const ResourceInfo = () => {
         </h4>
         {currentRes.pdf != undefined && currentRes.pdf != "" && (
           <>
-            <p className="text-lg">✦ PDF Instructions</p>
+            <div className="ml-0.5">
+              <p className="text-lg">✦ PDF Instructions</p>
+              <a
+                href={embedPDF}
+                target="_blank"
+                className="text-blue-600 underline hover:cursor-pointer"
+              >
+                Open in separate tab.
+              </a>
+            </div>
             <iframe
               src={embedPDF}
               className={`w-full ${infoCounter === 1 ? "h-10/10" : "h-5/10"}`}
@@ -52,7 +61,16 @@ const ResourceInfo = () => {
         )}
         {currentRes.video != undefined && currentRes.video != "" && (
           <>
-            <p className="text-lg mt-2">✦ Video</p>
+            <div className="mt-2">
+              <p className="text-lg">✦ Video</p>
+              <a
+                href={currentRes.video}
+                target="_blank"
+                className="text-blue-600 underline"
+              >
+                Open in separate tab.
+              </a>
+            </div>
             <iframe
               src={embedVid}
               className={`w-full ${infoCounter === 1 ? "h-10/10" : "h-5/10"}`}

@@ -123,8 +123,13 @@ function App() {
       fetchRes();
     }, 3000);
 
+    // focus trap
+    if (openRes != "") {
+      console.log("res open");
+    }
+
     return () => clearTimeout(timer);
-  }, [selectedMain, showRes]);
+  }, [selectedMain, showRes, openRes]);
   // scrolling
   scrollToSection(mainCatRef, sectionSize);
   const scrollToTop = () => {
@@ -167,6 +172,7 @@ function App() {
           <motion.button
             whileHover={{ scale: 1.1 }}
             className="fixed bottom-0 right-0 bg-black/30 rounded-full p-1 m-1.5 hover:cursor-pointer hover:bg-accent-red hover:text-white active:bg-accent-red active:text-white"
+            tabIndex={0}
             onClick={() => scrollToTop()}
           >
             <BackToTopIcon />
