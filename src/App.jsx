@@ -171,7 +171,7 @@ function App() {
   return (
     <>
       {openRes != "" && <ResourceInfo />}
-      <div className="min-h-screen bg-beige flex items-center justify-center lg:p-5">
+      <div className="min-h-screen bg-beige flex items-center flex-col justify-center lg:p-5">
         {
           <motion.button
             whileHover={{ scale: 1.1 }}
@@ -288,6 +288,24 @@ function App() {
             </AnimatePresence>
           </motion.div>
         </motion.div>
+        <footer className=" w-full flex justify-center flex-col items-center text-sm">
+          <p className="font-bold">Attributions</p>
+          <a
+            href="https://www.flaticon.com/free-icons/sewing"
+            target="_blank"
+            title="sewing icons"
+            className="hover:underline"
+          >
+            Sewing icons (Main logo) created by Freepik - Flaticon
+          </a>
+          <a
+            href="https://iconify.design/"
+            className="hover:underline"
+            target="_blank"
+          >
+            All other icons from Iconify
+          </a>
+        </footer>
       </div>
     </>
   );

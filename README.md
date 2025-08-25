@@ -42,3 +42,8 @@ Resource Page is a website created with the intention of getting students to fin
 ## Future Changes/Features
 
 - **Search Bar**: To make the navigating through the site and finding resources even faster.
+
+## Attributions
+
+- [Sewing icons](https://www.flaticon.com/free-icon/fabric_4644840?related_id=4644935&origin=search) by Freepik - Flaticon
+- All other icons by [Iconify](https://iconify.design/)
