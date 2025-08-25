@@ -22,7 +22,9 @@ const DisplayMainCats = ({ mainCats, setSectionSize }) => {
                 setShowRes(false);
               }}
             >
-              <div className="pl-1.5">{mainIcons[index]}</div>
+              <div className="pl-1.5" aria-hidden="true">
+                {mainIcons[index]}
+              </div>
               <p className="grow-1">{cat}</p>
             </button>
           ))}

@@ -18,7 +18,9 @@ const DisplaySubCats = () => {
           setShowRes(true);
         }}
       >
-        <div className="py-1.5">{subIcons[iconString]}</div>
+        <div className="py-1.5" aria-hidden="true">
+          {subIcons[iconString]}
+        </div>
         <p className="w-fit">{subCat}</p>
       </button>
     );
